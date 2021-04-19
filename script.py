@@ -13,6 +13,23 @@ HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
 
 for file in os.listdir(SOURCE):
     path = os.path.join(SOURCE, file)
-    destination = os.path.join(HERE, file)
 
+    if not path.endswith('hcore.h'):
+        destination = os.path.join(HERE, file)
+    else:
+        destination = os.path.join(HERE, 'cstl.h')
+
+    # Copy contents
     shutil.copy(path, destination)
+
+    # Replace any #includes
+    with open(destination) as f:
+        s = f.read();
+    
+    s = s.replace('#include <hazel/core/', '#include <cstl/')
+
+    with open(destination, 'w') as f:
+        f.write(s)
+    
+
+    
