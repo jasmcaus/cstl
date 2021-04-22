@@ -1,8 +1,8 @@
 #ifndef CSTL_CLOCK_H
 #define CSTL_CLOCK_H
 
-#include <cstl/misc.h>
-#include <cstl/types.h>
+#include <CSTL/Misc.h>
+#include <CSTL/Types.h>
 
 #ifdef __cplusplus
 extern "C" {

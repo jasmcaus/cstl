@@ -1,7 +1,7 @@
 #ifndef CSTL_TYPES_H
 #define CSTL_TYPES_H
 
-#include <cstl/debug.h>
+#include <CSTL/debug.h>
 
 #ifdef __cplusplus
 extern "C" {

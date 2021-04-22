@@ -21,16 +21,16 @@ CREDITS
 	Written Jason Dsouza
 */
 
-#include <cstl/clock.h>
-#include <cstl/compilers.h>
-#include <cstl/cpus.h>
-#include <cstl/debug.h>
-#include <cstl/headers.h>
-#include <cstl/memory.h>
-#include <cstl/misc.h>
-#include <cstl/os.h>
-#include <cstl/string.h>
-#include <cstl/types.h>
+#include <CSTL/Clock.h>
+#include <CSTL/Compilers.h>
+#include <CSTL/Cpus.h>
+#include <CSTL/Debug.h>
+#include <CSTL/Headers.h>
+#include <CSTL/Memory.h>
+#include <CSTL/Misc.h>
+#include <CSTL/OS.h>
+#include <CSTL/String.h>
+#include <CSTL/Types.h>
 
 
 #endif // _CSTL_CORE_CSTL_H
