@@ -27,6 +27,7 @@ for file in os.listdir(SOURCE):
         s = f.read();
     
     s = s.replace('#include <Hazel/Core/', '#include <CSTL/')
+    s = s.replace("HAZEL_", "CSTL_")
 
     with open(destination, 'w') as f:
         f.write(s)
