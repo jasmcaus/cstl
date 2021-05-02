@@ -1,9 +1,23 @@
+/*
+  ______ ____ ________ _
+ / ____/ ____|__   __/| |
+| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
+| |    \___ \   | |   | |      Language: C
+| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
+ \_____\_____/  |_|   \______| 
+
+Licensed under the MIT License <http://opensource.org/licenses/MIT>
+SPDX-License-Identifier: MIT
+Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
+*/
+
 #ifndef CSTL_MISCELLANEOUS_H
 #define CSTL_MISCELLANEOUS_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 // Defines 
 #ifndef CSTL_DEF 
@@ -40,6 +54,7 @@ extern "C" {
     #endif 
 #endif 
 
+
 // No Inline 
 #ifndef no_inline
     #if defined(_MSC_VER)
@@ -55,10 +70,12 @@ extern "C" {
     #define cast(Type)  (Type)
 #endif 
 
+
 // A signed sizeof is more useful 
-#ifndef cstl_sizeof
-    #define cstl_sizeof(x)     (Ll)(sizeof(x))
+#ifndef CSTL_SIZEOF
+    #define CSTL_SIZEOF(x)     (Ll)(sizeof(x))
 #endif 
+
 
 // Statics!
 // static means 3-4 different things in C/C++!!
@@ -67,6 +84,26 @@ extern "C" {
     #define CSTL_INTERNAL     static // Internal Linkage
     #define CSTL_LOCALPERSIST static // Local Persisting Variables  
 #endif 
+
+
+// Execute power operations
+long power(long x, long y) {
+    int total; 
+    
+    if(y == 0) return 1; 
+    else if(y == 1) return x; 
+    else if(y == -1) return 1/x; 
+    else if(y > 0) {
+        total = x; 
+        total *= power(x, y-1); 
+    } 
+    else {
+        total = 1/x; 
+        total *= power(x, y+1); 
+    }
+
+    return total; 
+}
 
 
 // Some fun with macros ==========================================

@@ -1,3 +1,16 @@
+/*
+  ______ ____ ________ _
+ / ____/ ____|__   __/| |
+| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
+| |    \___ \   | |   | |      Language: C
+| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
+ \_____\_____/  |_|   \______| 
+
+Licensed under the MIT License <http://opensource.org/licenses/MIT>
+SPDX-License-Identifier: MIT
+Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
+*/
+
 #ifndef CSTL_MEMORY_H
 #define CSTL_MEMORY_H
 
