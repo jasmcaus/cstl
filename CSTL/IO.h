@@ -14,7 +14,37 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_IO_H
 #define CSTL_IO_H
 
-#ifndef __cplusplus
+#ifdef __cplusplus
+
+#include <fstream>
+#include <sstream>
+#include <string> 
+#include <iostream>
+
+namespace cstl {
+
+// Read file contents
+std::string read_File(const std::string& fname) {
+    std::ifstream stream(fname); 
+	std::string buffer; 
+
+    if(!stream) {
+        std::cout << "Coud not open file: " << fname << "\n";
+        std::abort();
+    }
+
+    std::ostringstream ss;
+    ss << stream.rdbuf();
+    buffer = ss.str();
+    stream.close();
+
+    return buffer;
+}
+
+} // namespace cstl
+
+#else 
+
 #include <stdio.h>
 
 // C-version
@@ -44,33 +74,6 @@ char* readFile(const char* fname) {
     return buffer;
 }
 
-#else 
-#include <fstream>
-#include <sstream>
-#include <string> 
-#include <iostream>
-
-namespace cstl {
-
-// Read file contents
-std::string readFile(const std::string& fname) {
-    std::ifstream stream(fname); 
-	std::string buffer; 
-
-    if(!stream) {
-        std::cout << "Coud not open file: " << fname << "\n";
-        std::abort();
-    }
-
-    std::ostringstream ss;
-    ss << stream.rdbuf();
-    buffer = ss.str();
-    stream.close();
-
-    return buffer;
-}
-
-} // namespace cstl
 #endif // __cplusplus 
 
 #endif // CSTL_IO_H
