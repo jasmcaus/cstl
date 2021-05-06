@@ -14,83 +14,19 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_STRING_H
 #define CSTL_STRING_H
 
-#include <CSTL/memory.h>
-#include <CSTL/misc.h>
+#include <CSTL/Memory.h>
+#include <CSTL/Misc.h>
 #include <CSTL/Types.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
+namespace cstl {
 
 // Char Things ==========================================
-CSTL_DEF inline char toLower(char c);
-CSTL_DEF inline char toUpper(char c);
-CSTL_DEF inline bool isWhitespace(char c);
-CSTL_DEF inline bool isLower(char c);
-CSTL_DEF inline bool isUpper(char c);
-CSTL_DEF inline bool isLetter(char c);
-CSTL_DEF inline bool isDigit(char c);
-CSTL_DEF inline bool isHexDigit(char c);
-CSTL_DEF inline bool isAlpha(char c);
-CSTL_DEF inline bool isAlphanumeric(char c);
-CSTL_DEF inline Int32 digitToInt(char c);
-CSTL_DEF inline Int32 hexDigitToInt(char c);
-
-// ASCII only
-CSTL_DEF inline void strToLower(char* str);
-CSTL_DEF inline void strToUpper(char* str);
-
-
-// A less fucking crazy strtok!
-CSTL_DEF const char* strTok(char* output, char const* src, char const* delimit);
-
-CSTL_DEF bool strHasPrefix(char const* str, char const* prefix);
-CSTL_DEF bool strHasSuffix(char const* str, char const* suffix);
-
-CSTL_DEF char const* charFirstOccurence(char const* str, char c);
-CSTL_DEF char const* charLastOccurence (char const* str, char c);
-
-CSTL_DEF char* strCat(char* dest, char* source);
-
-CSTL_DEF Ll    strLen(const char* str);
-CSTL_DEF Ll    strnLen(const char* str, Ll max_len);
-CSTL_DEF Int32 strCmp(const char* str1, const char* str2);
-CSTL_DEF Int32 strnCmp(const char* str1, const char* str2, Ll len);
-CSTL_DEF char* strCopy(char *dest, const char* source);
-CSTL_DEF char* strnCopy(char *dest, const char* source, Ll len);
-CSTL_DEF Ll    strlCopy(char *dest, const char* source, Ll len);
-CSTL_DEF char* strRev(char *str); //  ASCII only
-
-
-// ////////////////////////////////////////////////////////////////
-// // UTF-8 Handling
-// // Does not check if utf-8 string is valid
-// CSTL_DEF Ll gb_utf8_strlen (UInt8 const* str);
-// CSTL_DEF Ll gb_utf8_strnlen(UInt8 const* str, Ll max_len);
-
-// // NOTE(jasmcaus): Windows doesn't handle 8 bit filenames well ('cause Micro$hit)
-// CSTL_DEF UInt16 *gb_utf8_to_ucstr2    (UInt16 *buffer, Ll len, UInt8 const* str);
-// CSTL_DEF UInt8 * gb_ucstr2_to_utf8    (UInt8 *buffer, Ll len, UInt16 const* str);
-// CSTL_DEF UInt16 *gb_utf8_to_ucstr2_buf(UInt8 const* str);   // NOTE(jasmcaus): Uses locally persisting buffer
-// CSTL_DEF UInt8 * gb_ucstr2_to_utf8_buf(UInt16 const* str); // NOTE(jasmcaus): Uses locally persisting buffer
-
-// // NOTE(jasmcaus): Returns size of codepoint in bytes
-// CSTL_DEF Ll gb_utf8_decode        (UInt8 const* str, Ll str_len, Rune *codepoint);
-// CSTL_DEF Ll gb_utf8_codepoint_size(UInt8 const* str, Ll str_len);
-// CSTL_DEF Ll gb_utf8_encode_rune   (UInt8 buf[4], Rune r);
-
-
-//
-//
-//
-//
-//
-// Implementation
-//
-//
-//
-//
-//
+static inline bool isUpper(char c) { return c>='A' && c<='Z'; }
+static inline bool isLower(char c) { return c>='a' && c<='z'; }
+static inline bool isDigit(char c) { return c >= '0' && c <= '9'; }
+static inline bool isAlpha(char c) { return isUpper(c) || isLower(c); }
+static inline bool isAlphanumeric(char c) { return isAlpha(c) || isDigit(c); }
 
 static inline char toLower(char c) {
     if(c >= 'A' && c <= 'Z') 
@@ -111,41 +47,19 @@ static inline bool isWhitespace(char c) {
     return false;
 }
 
-static inline bool isUpper(char c) {
-    return c>='A' && c<='Z';
-}
-
-static inline bool isLower(char c) {
-    return c>='a' && c<='z';
-}
-
 static inline bool isLetter(char c) {
     return  (c >= 'a' && c <= 'z') || 
             (c >= 'A' && c <= 'Z') || 
             (c == '_') ;
 }
 
-static inline bool isDigit(char c) {
-    return c >= '0' && c <= '9';
-}
-
 static inline bool isHexDigit(char c) {
-    return  isDigit(c)                    ||
+    return  isDigit(c)                   ||
             CSTL_IS_BETWEEN(c, 'a', 'f') ||
             CSTL_IS_BETWEEN(c, 'A', 'F'); 
 }
 
-static inline bool isAlpha(char c) {
-    return isUpper(c) || isLower(c);
-}
-
-static inline bool isAlphanumeric(char c) {
-    return isAlpha(c) || isDigit(c);
-}
-
-static inline Int32 digitToInt(char c) {
-    return isDigit(c) ? c-'0' : c-'W';
-}
+static inline Int32 digitToInt(char c) { return isDigit(c) ? c-'0' : c-'W'; }
 
 static inline Int32 hexDigitToInt(char c) {
     if(isDigit(c))
@@ -176,26 +90,109 @@ static inline void strToUpper(char* str) {
     }
 }
 
+// namespace detail {
+//     std::string stripBaseName(const std::string& full_path) {
+//         const char kSeparator = '/';
+//         size_t pos = full_path.rfind(kSeparator);
 
-CSTL_DEF const char* strTok(char* output, char const* src, char const* delimit) {
+//         if (pos != std::string::npos) {
+//             return full_path.substr(pos + 1, std::string::npos);
+//         } else {
+//             return full_path;
+//         }
+//     }
 
-}
+//     struct CompileTimeEmptyString {
+//         operator const std::string&() const {
+//             static const std::string empty_string_literal; 
+//             return empty_string_literal;
+//         }
 
-CSTL_DEF bool strHasPrefix(char const* str, char const* prefix) {
+//         operator const char*() const {
+//             return "";
+//         }
+//     }; // struct CompileTimeEmptyString
 
-}
+//     template <typename T>
+//     struct CanonicalizeStrTypes {
+//         using type = const T&;
+//     };
 
-CSTL_DEF bool strHasSuffix(char const* str, char const* suffix) {
+//     template <size_t N>
+//     struct CanonicalizeStrTypes<char[N]> {
+//         using type = const char*;
+//     };
 
-}
 
-CSTL_DEF char const* charFirstOccurence(char const* str, char c) {
+//     inline std::ostream& _str(std::ostream& ss) {
+//         return ss;
+//     }
 
-}
+//     template <typename T>
+//     inline std::ostream& _str(std::ostream& ss, const T& t) {
+//         ss << t;
+//         return ss;
+//     }
 
-CSTL_DEF char const* charLastOccurence (char const* str, char c) {
+//     template <>
+//     inline std::ostream& _str<CompileTimeEmptyString>(std::ostream& ss, const CompileTimeEmptyString&) {
+//         return ss;
+//     }
 
-}
+//     template <typename T, typename... Args>
+//     inline std::ostream& _str(std::ostream& ss, const T& t, const Args&... args) {
+//         return _str(_str(ss, t), args...);
+//     }
+
+//     template<typename... Args>
+//     struct _str_wrapper final {
+//     static std::string call(const Args&... args) {
+//         std::ostringstream ss;
+//         _str(ss, args...);
+//         return ss.str();
+//     }
+//     };
+
+//     // Specializations for already-a-string types.
+//     template<>
+//     struct _str_wrapper<std::string> final {
+//         // return by reference to avoid the binary size of a string copy
+//         static const std::string& call(const std::string& str) {
+//             return str;
+//         }
+//     };
+
+//     template<>
+//     struct _str_wrapper<const char*> final {
+//         static const char* call(const char* str) {
+//             return str;
+//         }
+//     };
+
+//     // For cstl::str() with an empty argument list (which is common in our assert macros), we don't 
+//     // want to pay the binary size for constructing and destructing a stringstream or even constructing a string.
+//     template<>
+//     struct _str_wrapper<> final {
+//         static CompileTimeEmptyString call() {
+//             return CompileTimeEmptyString();
+//         }
+//     };
+
+// } // namespace detail
+
+// // Convert a list of string-like arguments into a single string. 
+// template<typename... Args>
+// inline decltype(auto) str(const Args&... args) {
+//     return detail::_str_wrapper<typename 
+//         detail::CanonicalizeStrTypes<Args>::type...>::call(args...);
+// }
+
+// /// Represents a location in source code (for debugging).
+// struct SourceLocation {
+//     const char* function;
+//     const char* file;
+//     UInt32 line;
+// };
 
 
 // // The functions below are part of C's actual library. 
@@ -220,6 +217,16 @@ CSTL_DEF char const* charLastOccurence (char const* str, char c) {
 //     License along with the GNU C Library; if not, see
 //     <http://www.gnu.org/licenses/>.  
 // */
+
+// CSTL_DEF char* strCat(char* dest, char* source);
+// CSTL_DEF Ll    strLen(const char* str);
+// CSTL_DEF Ll    strnLen(const char* str, Ll max_len);
+// CSTL_DEF Int32 strCmp(const char* str1, const char* str2);
+// CSTL_DEF Int32 strnCmp(const char* str1, const char* str2, Ll len);
+// CSTL_DEF char* strCopy(char *dest, const char* source);
+// CSTL_DEF char* strnCopy(char *dest, const char* source, Ll len);
+// CSTL_DEF Ll    strlCopy(char *dest, const char* source, Ll len);
+// CSTL_DEF char* strRev(char *str); //  ASCII only
 
 // CSTL_DEF Ll strLen(const char* str) {
 //     const char* char_ptr;
@@ -372,8 +379,7 @@ CSTL_DEF char const* charLastOccurence (char const* str, char c) {
 //     return dest;
 // }
 
-#if defined(__cplusplus)
-}
-#endif
+
+} // namespace cstl
 
 #endif // CSTL_STRING_H

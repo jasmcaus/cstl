@@ -49,6 +49,7 @@ for file in os.listdir(SOURCE):
     s = s.replace('#include <Hazel/Core/', '#include <CSTL/')
     s = s.replace("HAZEL_", "CSTL_")
     s = s.replace(HAZEL_COPYRIGHT, CSTL_COPYRIGHT)
+    s = s.replace("namespace Hazel", "namespace cstl")
 
     with open(destination, 'w') as f:
         f.write(s)

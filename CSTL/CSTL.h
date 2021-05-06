@@ -34,16 +34,21 @@ CREDITS
 	Written Jason Dsouza
 */
 
+#ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
+    #include <CSTL/CMake_Macros.h>
+#endif // CSTL_USING_CUSTOM_GENERATED_MACROS
+
 #include <CSTL/Clock.h>
 #include <CSTL/Compilers.h>
 #include <CSTL/Cpus.h>
 #include <CSTL/Debug.h>
+#include <CSTL/Exception.h>
 #include <CSTL/Headers.h>
+#include <CSTL/IO.h>
 #include <CSTL/Memory.h>
 #include <CSTL/Misc.h>
 #include <CSTL/OS.h>
 #include <CSTL/String.h>
 #include <CSTL/Types.h>
-
 
 #endif // _CSTL_CORE_CSTL_H
