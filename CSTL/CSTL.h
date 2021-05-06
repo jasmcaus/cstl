@@ -34,13 +34,28 @@ CREDITS
 	Written Jason Dsouza
 */
 
+/*
+    NOTE: Do not include this file multiple times (in separate source files)
+    Since this is a header-only library (with no implementation source file), each time you include this file, 
+    methods are individually built into their separate object files.
+    Thus, you will end up with the "Multiple definition of `function`" error. 
+
+    If you need to use an individual file, either include this file (HCore.h) _once_ or pick and choose what you need - 
+    being explicit never hurts. 
+
+    For the development of the Hazel Language, it is required (otherwise you'll run into compilation problems such as the 
+    one above) you choose the latter option. 
+    
+    Reminder: Be Explicit. 
+*/
+
 #ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
     #include <CSTL/CMake_Macros.h>
 #endif // CSTL_USING_CUSTOM_GENERATED_MACROS
 
 #include <CSTL/Clock.h>
 #include <CSTL/Compilers.h>
-#include <CSTL/Cpus.h>
+#include <CSTL/CPUs.h>
 #include <CSTL/Debug.h>
 #include <CSTL/Exception.h>
 #include <CSTL/Headers.h>
