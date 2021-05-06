@@ -14,12 +14,12 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_DEBUG_H
 #define CSTL_DEBUG_H
 
-#ifdef __cplusplus
-namespace cstl {
-extern "C" {
-#endif
+// #ifdef __cplusplus
+// namespace cstl {
+// #endif
 
-// Debug + Asserts  ==========================================
+// ========================= Debug + Asserts =========================
+
 #ifndef CSTL_CHECK
     #define CSTL_CHECK3(cond, msg)       typedef char static_assertion_##msg[(!!(cond))*2-1]
     // NOTE(jasmcaus): Token pasting madness!!
@@ -29,9 +29,8 @@ extern "C" {
 #endif
 
 
-#ifdef __cplusplus
-} // extern "C"
-} // namespace cstl
-#endif
+// #ifdef __cplusplus
+// } // namespace cstl
+// #endif
 
 #endif // CSTL_DEBUG_H

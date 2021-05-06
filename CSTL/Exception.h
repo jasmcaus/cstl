@@ -6,7 +6,6 @@
 
 // #ifdef __cplusplus
 // namespace cstl {
-// extern "C" {
 // #endif
 
 // // The Primary CSTL Error Class
@@ -355,7 +354,6 @@
 // #endif
 
 // #ifdef __cplusplus
-// } // extern "C"
 // } // namespace cstl
 // #endif
 

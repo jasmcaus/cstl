@@ -16,10 +16,9 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 
 #include <CSTL/OS.h>
 
-#ifdef __cplusplus
-namespace cstl {
-extern "C" {
-#endif
+// #ifdef __cplusplus
+// namespace cstl {
+// #endif
 
 
 // Headers ==========================================
@@ -119,9 +118,8 @@ extern "C" {
 #endif
 
 
-#ifdef __cplusplus
-} // extern "C"
-} // namespace cstl
-#endif
+// #ifdef __cplusplus
+// } // namespace cstl
+// #endif
 
 #endif // CSTL_HEADERS_H
