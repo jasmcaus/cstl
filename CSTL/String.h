@@ -18,8 +18,11 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #include <CSTL/Misc.h>
 #include <CSTL/Types.h>
 
-
+#ifdef __cplusplus
 namespace cstl {
+extern "C" {
+#endif
+
 
 // Char Things ==========================================
 static inline bool isUpper(char c) { return c>='A' && c<='Z'; }
@@ -380,6 +383,9 @@ static inline void strToUpper(char* str) {
 // }
 
 
+#ifdef __cplusplus
+} // extern "C"
 } // namespace cstl
+#endif
 
 #endif // CSTL_STRING_H

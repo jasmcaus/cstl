@@ -1,10 +1,13 @@
 #ifndef CSTL_EXCEPTION_H
 #define CSTL_EXCEPTION_H 
 
-#include <CSTL/Types.h>
 #include <CSTL/String.h>
+#include <CSTL/Types.h>
 
+// #ifdef __cplusplus
 // namespace cstl {
+// extern "C" {
+// #endif
 
 // // The Primary CSTL Error Class
 // // Provides a complete error message with source code location information via `what()`, and a more conce message via 
@@ -146,7 +149,6 @@
 //     }
 
 // } // namespace detail
-// } // namespace cstl 
 
 // // ========= ERROR REPORTING MACROS =========
 
@@ -350,6 +352,11 @@
 //             ::cstl::str(__VA_ARGS__),            \
 //             false                               \
 //         )
+// #endif
+
+// #ifdef __cplusplus
+// } // extern "C"
+// } // namespace cstl
 // #endif
 
 #endif // CSTL_EXCEPTION_H

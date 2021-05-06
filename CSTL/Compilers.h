@@ -15,8 +15,10 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #define CSTL_COMPILERS_H
 
 #ifdef __cplusplus
+namespace cstl {
 extern "C" {
 #endif
+
 
 // Compilers ==========================================
 // CSTL_COMPILER_...
@@ -30,8 +32,9 @@ extern "C" {
     #error Unknown Compiler (Hazel currently supports only MSVC, GCC and Clang)
 #endif 
 
-#if defined(__cplusplus)
-}
+#ifdef __cplusplus
+} // extern "C"
+} // namespace cstl
 #endif
 
 #endif // CSTL_COMPILERS_H

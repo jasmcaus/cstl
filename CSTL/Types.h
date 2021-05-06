@@ -14,9 +14,10 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_TYPES_H
 #define CSTL_TYPES_H
 
-#include <CSTL/debug.h>
+#include <CSTL/Debug.h>
 
 #ifdef __cplusplus
+namespace cstl {
 extern "C" {
 #endif
 
@@ -212,8 +213,9 @@ typedef Int32 Rune;
 CSTL_CHECK(sizeof(UIntptr) == sizeof(Intptr));
 
 
-#if defined(__cplusplus)
-}
+#ifdef __cplusplus
+} // extern "C"
+} // namespace cstl
 #endif
 
 #endif // CSTL_TYPES_H
