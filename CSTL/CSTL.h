@@ -66,4 +66,8 @@ CREDITS
 #include <CSTL/String.h>
 #include <CSTL/Types.h>
 
+#ifdef CSTL_USE_UTEST 
+    #include <CSTL/UTest.h>
+#endif // CSTL_USE_UTEST
+
 #endif // _CSTL_CORE_CSTL_H
