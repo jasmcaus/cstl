@@ -15,7 +15,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #define CSTL_STRING_H
 
 #include <CSTL/Memory.h>
-#include <CSTL/Misc.h>
+#include <CSTL/Math.h>
 #include <CSTL/Types.h>
 
 // UTF8 Inspiration: https://github.com/sheredom/utf8.h/blob/master/utf8.h
@@ -58,9 +58,9 @@ static inline bool isLetter(char c) {
 }
 
 static inline bool isHexDigit(char c) {
-    return  isDigit(c)                   ||
-            CSTL_IS_BETWEEN(c, 'a', 'f') ||
-            CSTL_IS_BETWEEN(c, 'A', 'F'); 
+    return isDigit(c)                   ||
+           CSTL_IS_BETWEEN(c, 'a', 'f') ||
+           CSTL_IS_BETWEEN(c, 'A', 'F'); 
 }
 
 static inline Int32 digitToInt(char c) { return isDigit(c) ? c-'0' : c-'W'; }
