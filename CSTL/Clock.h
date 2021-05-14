@@ -17,9 +17,9 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #include <CSTL/Misc.h>
 #include <CSTL/Types.h>
 
-// #ifdef __cplusplus
-// namespace cstl {
-// #endif
+#ifdef __cplusplus
+namespace cstl {
+#endif
 
 // Time ==========================================
 CSTL_DEF UInt64   cstl_rdtsc(void);
@@ -27,8 +27,8 @@ CSTL_DEF Float64  cstl_time_now(void); // This is only for relative time e.g. ga
 CSTL_DEF UInt64   cstl_utc_time_now(void); // Number of microseconds since 1601-01-01 UTC
 CSTL_DEF void     cstl_sleep_ms(UInt32 ms);
 
-// #ifdef __cplusplus
-// } // namespace cstl
-// #endif
+#ifdef __cplusplus
+} // namespace cstl
+#endif
 
 #endif // CSTL_CLOCK_H

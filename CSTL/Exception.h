@@ -4,9 +4,9 @@
 #include <CSTL/String.h>
 #include <CSTL/Types.h>
 
-// #ifdef __cplusplus
-// namespace cstl {
-// #endif
+#ifdef __cplusplus
+namespace cstl {
+#endif
 
 // // The Primary CSTL Error Class
 // // Provides a complete error message with source code location information via `what()`, and a more conce message via 
@@ -355,8 +355,8 @@
 #endif
 */
 
-// #ifdef __cplusplus
-// } // namespace cstl
-// #endif
+#ifdef __cplusplus
+} // namespace cstl
+#endif
 
 #endif // CSTL_EXCEPTION_H
