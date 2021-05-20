@@ -53,18 +53,18 @@ CREDITS
     #include <CSTL/CMake_Macros.h>
 #endif // CSTL_USING_CUSTOM_GENERATED_MACROS
 
+#include <CSTL/Headers.h>
 #include <CSTL/Clock.h>
 #include <CSTL/Compilers.h>
 #include <CSTL/CPUs.h>
 #include <CSTL/Debug.h>
+#include <CSTL/Types.h>
 #include <CSTL/Exception.h>
-#include <CSTL/Headers.h>
 #include <CSTL/IO.h>
 #include <CSTL/Memory.h>
 #include <CSTL/Misc.h>
 #include <CSTL/OS.h>
-#include <CSTL/String.h>
-#include <CSTL/Types.h>
 #include <CSTL/Math.h>
+#include <CSTL/String.h>
 
 #endif // _CSTL_CORE_CSTL_H

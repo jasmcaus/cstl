@@ -32,11 +32,11 @@ namespace cstl {
 // Inline 
 #ifdef __cplusplus
     #if defined(_MSC_VER) && _MSC_VER <= 1800 
-        #define inline  __inline
+        #define CSTL_INLINE     __inline
     #elif !defined(__STDC_VERSION__)
-        #define inline __inline__
+        #define CSTL_INLINE     __inline__
     #else 
-        #define inline 
+        #define CSTL_INLINE 
     #endif 
 #else
     // We default to C's inline function
@@ -46,63 +46,79 @@ namespace cstl {
     // 
     // We can enforce this here, but I'll wait for sometime. If we decide to go ahead with it, a simple text substitution
     // should work :)
-    #define inline  inline
+    #define CSTL_INLINE  inline
 #endif 
 
 
 // Force Inline
-#ifndef force_inline
+#ifndef CSTL_ALWAYS_INLINE
     #if defined(_MSC_VER)
         #if _MSC_VER < 1300
-            #define force_inline
+            #define CSTL_ALWAYS_INLINE
         #else 
-            #define force_inline   __forceinline
+            #define CSTL_ALWAYS_INLINE   __forceinline
         #endif 
+    #elif __has_attribute(always_inline) || defined(__GNUC__)
+        #define CSTL_ALWAYS_INLINE       __attribute__((__always_inline__)) inline
     #else 
-        #define force_inline       __attribute__((__always_inline__))
+        #define CSTL_ALWAYS_INLINE       inline
     #endif 
 #endif 
 
 
 // No Inline 
-#ifndef no_inline
+#ifndef CSTL_NOINLINE
     #if defined(_MSC_VER)
-        #define no_inline   __declspec(noinline)
+        #define CSTL_NOINLINE   __declspec(noinline)
     #else 
-        #define no_inline   __attribute__((noinline))
+        #define CSTL_NOINLINE   __attribute__((noinline))
     #endif 
 #endif 
 
 
 // Casts
 #ifdef __cplusplus
-    #define cast(type, x)       static_cast<type>(x)
-    #define ptrcast(type, x)    reinterpret_cast<type>(x)
+    #define CSTL_CAST(type, x)       static_cast<type>(x)
+    #define CSTL_PTRCAST(type, x)    reinterpret_cast<type>(x)
 #else
-    #define cast(type, x)       ((type)x)
-    #define ptrcast(type, x)    ((type)x)
+    #define CSTL_CAST(type, x)       ((type)x)
+    #define CSTL_PTRCAST(type, x)    ((type)x)
 #endif // __cplusplus
 
 
 // Noexcept
 #if defined(__cplusplus) && (__cplusplus >= 201103L)
-    #define noexcept    noexcept
+    #define CSTL_NOEXCEPT    noexcept
+#else 
+    #define CSTL_NOEXCEPT
 #endif // __cplusplus
 
 
 // Nothrow
 #if defined(__cplusplus) && defined(_MSC_VER)
-    #define nothrow   __declspec(nothrow)
+    #define CSTL_NOTHROW   __declspec(nothrow)
 #else
-    #define nothrow
+    #define CSTL_NOTHROW
 #endif // __cplusplus
 
 
-// printf Format-string specifiers for Int64 and UInt64 respectively
-#if defined(_MSC_VER) && (_MSC_VER < 1920)
+#define CSTL_CONCATENATE_IMPL(s1, s2)   s1##s2
+#define CSTL_CONCATENATE(s1, s2)        CSTL_CONCATENATE_IMPL(s1, s2)
+
+#define CSTL_MACRO_EXPAND(args)         args
+
+#define CSTL_STRINGIZE_IMPL(x)          #x
+#define CSTL_STRINGIZE(x)               CSTL_STRINGIZE_IMPL(x)
+
+
+// printf format-string specifiers for Int64 and UInt64 respectively
+#ifdef __clang__
+    #define CSTL_PRId64     "lld"
+    #define CSTL_PRIu64     "llu"
+#else 
     #define CSTL_PRId64     "I64d"
     #define CSTL_PRIu64     "I64u"
-#endif // _MSC_VER
+#endif  // __clang__
 
 
 // A signed sizeof is more useful 
@@ -118,27 +134,6 @@ namespace cstl {
     #define CSTL_INTERNAL     static // Internal Linkage
     #define CSTL_LOCALPERSIST static // Local Persisting Variables  
 #endif 
-
-
-// Execute power operations
-// long power(long x, long y) {
-//     int total; 
-    
-//     if(y == 0) return 1; 
-//     else if(y == 1) return x; 
-//     else if(y == -1) return 1/x; 
-//     else if(y > 0) {
-//         total = x; 
-//         total *= power(x, y-1); 
-//     } 
-//     else {
-//         total = 1/x; 
-//         total *= power(x, y+1); 
-//     }
-
-//     return total; 
-// }
-
 
 #ifdef __cplusplus
 } // namespace cstl
