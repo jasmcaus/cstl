@@ -26,7 +26,7 @@ CSTL_COPYRIGHT = \
   ______ ____ ________ _
  / ____/ ____|__   __/| |
 | |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
-| |    \___ \   | |   | |      Language: C
+| |    \___ \   | |   | |      Languages: C, C++ and Assembly
 | |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
  \_____\_____/  |_|   \______| 
 """
