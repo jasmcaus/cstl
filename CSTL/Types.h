@@ -15,10 +15,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #define CSTL_TYPES_H
 
 #include <CSTL/Debug.h>
-
-#ifdef __cplusplus
-namespace cstl {
-#endif
+#include <CSTL/Compilers.h>
 
 // Base Types (similar to the Types in the Hazel Language) ==========================================
 #if defined(CSTL_COMPILER_MSVC)
@@ -192,9 +189,5 @@ typedef Int64      Ll;
 #endif
 
 CSTL_DEBUG_CHECK(sizeof(UIntptr) == sizeof(Intptr));
-
-#ifdef __cplusplus
-} // namespace cstl
-#endif
 
 #endif // CSTL_TYPES_H

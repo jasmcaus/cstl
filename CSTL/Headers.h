@@ -16,10 +16,6 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 
 #include <CSTL/OS.h>
 
-#ifdef __cplusplus
-namespace cstl {
-#endif
-
 
 // Headers ==========================================
 #if defined(_WIN32) && !defined(__MINGW32__)
@@ -49,7 +45,9 @@ namespace cstl {
             #define WIN32_MEAN_AND_LEAN 1
             #define VC_EXTRALEAN        1
         #endif
-        // #include <windows.h>
+        // #pragma warning(push, 0)
+        //     #include <Windows.h>
+        // #pragma warning(pop)
         #undef NOMINMAX
 
         #if !defined(CSTL_WINDOWS_H_INCLUDED)
@@ -117,9 +115,5 @@ namespace cstl {
     // #include <semaphore.h>
 #endif
 
-
-#ifdef __cplusplus
-} // namespace cstl
-#endif
 
 #endif // CSTL_HEADERS_H

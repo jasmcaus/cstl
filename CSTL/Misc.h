@@ -14,10 +14,6 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_MISCELLANEOUS_H
 #define CSTL_MISCELLANEOUS_H
 
-#ifdef __cplusplus
-namespace cstl {
-#endif
-
 
 // Inline 
 #ifdef __cplusplus
@@ -102,29 +98,34 @@ namespace cstl {
 
 
 // printf format-string specifiers for Int64 and UInt64 respectively
-#ifdef __clang__
-    #define CSTL_PRId64     "lld"
-    #define CSTL_PRIu64     "llu"
-#else 
-    #define CSTL_PRId64     "I64d"
-    #define CSTL_PRIu64     "I64u"
-#endif  // __clang__
+#if defined(_MSC_VER) && (_MSC_VER < 1920)
+    #define CSTL_PRId64 "I64d"
+    #define CSTL_PRIu64 "I64u"
+#else
+    // Avoid spurious trailing ‘%’ in format error
+	// See: https://stackoverflow.com/questions/8132399/how-to-printf-uint64-t-fails-with-spurious-trailing-in-format
+	#define __STDC_FORMAT_MACROS
+    #include <inttypes.h>
+
+    #define CSTL_PRId64 PRId64
+    #define CSTL_PRIu64 PRIu64
+#endif
 
 
 // A signed sizeof is more useful 
 #ifndef CSTL_SIZEOF
-    #define CSTL_SIZEOF(x)     (Ll)(sizeof(x))
+    #define CSTL_SIZEOF(x)    (Ll)(sizeof(x))
 #endif 
 
 
 // Statics!
 // static means 3-4 different things in C/C++!!
 #ifndef CSTL_EXTERN
-    #define CSTL_EXTERN     extern
+    #define CSTL_EXTERN       extern
 #endif 
 
 #ifndef CSTL_STATIC
-    #define CSTL_STATIC     static
+    #define CSTL_STATIC       static
 #endif
 
 #ifndef CSTL_GLOBAL
@@ -132,9 +133,5 @@ namespace cstl {
     #define CSTL_INTERNAL     static // Internal Linkage
     #define CSTL_LOCALPERSIST static // Local Persisting Variables  
 #endif 
-
-#ifdef __cplusplus
-} // namespace cstl
-#endif
 
 #endif // CSTL_MISCELLANEOUS_H

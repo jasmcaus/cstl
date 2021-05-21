@@ -58,11 +58,11 @@ CREDITS
 #include <CSTL/Compilers.h>
 #include <CSTL/CPUs.h>
 #include <CSTL/Debug.h>
+#include <CSTL/Misc.h>
 #include <CSTL/Types.h>
 #include <CSTL/Exception.h>
 #include <CSTL/IO.h>
 #include <CSTL/Memory.h>
-#include <CSTL/Misc.h>
 #include <CSTL/OS.h>
 #include <CSTL/Math.h>
 #include <CSTL/String.h>
