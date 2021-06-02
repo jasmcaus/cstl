@@ -17,7 +17,19 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #include <CSTL/Debug.h>
 #include <CSTL/Compilers.h>
 
-// Base Types (similar to the Types in the Hazel Language) ==========================================
+// Base Types
+/*
+typedef unsigned char       UInt8; 
+typedef          char       Int8;  
+typedef unsigned short      UInt16;
+typedef signed short        Int16; 
+typedef unsigned int        UInt32;
+typedef signed int          Int32; 
+typedef unsigned long long  UInt64;
+typedef long long           Int64; 
+typedef float               Float32; 
+typedef double              Float64; 
+*/
 #if defined(CSTL_COMPILER_MSVC)
     #if _MSVC_VER < 1300 
         typedef unsigned char     UInt8;
@@ -55,14 +67,6 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
     typedef int64_t   Int64; 
 #endif // Hazel Basic Types 
 
-// <windows.h> declares a typedef float FLOAT for its internal usage. 
-// We need to be polite and respect that :)
-// NOTE: <windows.h> is declared in Muon during Hazel's Internal Tests
-// #if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
-//     #define Float32     float
-// #else 
-//     typedef float  Float32; 
-// #endif // _WIN32
 typedef float  Float32; 
 typedef double Float64; 
 
@@ -138,9 +142,39 @@ typedef Int32 Rune;
 #define Float64_MAX 1.7976931348623157e+308
 
 // The same thing as size_t 
-typedef UInt64     Ull;
-// The same thing as ptrdiff_t
-typedef Int64      Ll;
+// Ull --> size_t
+// Ll  --> ptrdiff_t
+#if defined(_MSC_VER) && !defined(_WIN64)
+    typedef unsigned int Ull;
+    typedef int          Ll;
+#else
+    typedef UInt64  Ull;
+    typedef Int64   Ll;
+#endif
+
+// (U)Intptr is only here for semantic reasons really as this library will only support 32/64 bit OSes.
+// Are there any modern OSes (not 16 bit) where Intptr != ptrdiff_t/Ll ?
+#if defined(_WIN64)
+    typedef signed    __int64    Intptr;
+    typedef unsigned  __int64    UIntptr;
+#elif defined(_WIN32)
+    // To mark types changing their size, e.g. Intptr
+    #ifndef _W64
+        #if !defined(__midl) && (defined(_X86_) || defined(_M_IX86)) && _MSC_VER >= 1300
+            #define _W64 __w64
+        #else
+            #define _W64
+        #endif 
+    #endif
+
+    typedef _W64 signed int     Intptr;
+    typedef _W64 unsigned int   UIntptr;
+#else
+    typedef  uintptr_t   UIntptr;
+    typedef  intptr_t    Intptr;
+#endif
+
+CSTL_DEBUG_CHECK(sizeof(UIntptr) == sizeof(Intptr));
 
 // More Useful Types
 #define nullchar '\0' 
@@ -157,7 +191,6 @@ typedef Int64      Ll;
     #endif // __cplusplus
 #endif 
 
-
 // bool is a basic type in C++ and not C
 // We could just have used <stdbool.h> but I prefer this as it results in a smaller binary
 #ifndef __cplusplus
@@ -165,29 +198,5 @@ typedef Int64      Ll;
     static const bool false = 0;
     static const bool true  = 1;
 #endif 
-
-// (U)Intptr is only here for semantic reasons really as this library will only support 32/64 bit OSes.
-// Are there any modern OSes (not 16 bit) where Intptr != ptrdiff_t/Ll ?
-#if defined(_WIN64)
-    typedef signed   __int64    Intptr;
-    typedef unsigned __int64    UIntptr;
-#elif defined(_WIN32)
-    // To mark types changing their size, e.g. Intptr
-    #ifndef _W64
-        #if !defined(__midl) && (defined(_X86_) || defined(_M_IX86)) && _MSC_VER >= 1300
-            #define _W64 __w64
-        #else
-            #define _W64
-        #endif
-    #endif
-
-    typedef _W64 signed int     Intptr;
-    typedef _W64 unsigned int   UIntptr;
-#else
-    typedef  uintptr_t   UIntptr;
-    typedef  intptr_t    Intptr;
-#endif
-
-CSTL_DEBUG_CHECK(sizeof(UIntptr) == sizeof(Intptr));
 
 #endif // CSTL_TYPES_H
