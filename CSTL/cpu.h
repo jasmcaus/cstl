@@ -1,10 +1,10 @@
 /*
-  ______ ____ ________ _
- / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
-| |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
- \_____\_____/  |_|   \______| 
+_ _    _           ______   _______        
+| |  | |    /\    /___  /   |  ____|| |    
+| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+|  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+|_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
@@ -14,9 +14,6 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_CPU_H
 #define CSTL_CPU_H
 
-
-// ========================= CPU =========================
-// CSTL_CPU_...
 #if defined(_M_IX86) || defined(_M_X64) || defined(__i386__) || defined(__x86_64__)
     #ifndef CSTL_CPU_X86
          #define CSTL_CPU_X86 1

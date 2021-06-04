@@ -1,10 +1,10 @@
 /*
-  ______ ____ ________ _
- / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
-| |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
- \_____\_____/  |_|   \______| 
+_ _    _           ______   _______        
+| |  | |    /\    /___  /   |  ____|| |    
+| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+|  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+|_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
@@ -14,15 +14,10 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_STRING_H
 #define CSTL_STRING_H
 
-#include <CSTL/Types.h>
-#include <CSTL/Math.h>
+#include <CSTL/types.h>
+#include <CSTL/math.h>
 
 // UTF8 Inspiration: https://github.com/sheredom/utf8.h/blob/master/utf8.h
-
-#ifdef __cplusplus
-namespace cstl {
-#endif
-
 
 // Char Things ==========================================
 static inline bool isUpper(char c) { return c>='A' && c<='Z'; }
@@ -91,10 +86,6 @@ static inline void strToUpper(char* str) {
         str++;
     }
 }
-
-#ifdef __cplusplus
-} // namespace cstl
-#endif
 
 
 #endif // CSTL_STRING_H

@@ -1,10 +1,10 @@
 /*
-  ______ ____ ________ _
- / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
-| |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
- \_____\_____/  |_|   \______| 
+_ _    _           ______   _______        
+| |  | |    /\    /___  /   |  ____|| |    
+| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+|  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+|_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
@@ -40,7 +40,7 @@ CREDITS
     methods are individually built into their separate object files.
     Thus, you will end up with the "Multiple definition of `function`" error. 
 
-    If you need to use an individual file, either include this file (HCore.h) _once_ or pick and choose what you need - 
+    If you need to use an individual file, either include this file (hcore.h) _once_ or pick and choose what you need - 
     being explicit never hurts. 
 
     For the development of the Hazel Language, it is required (otherwise you'll run into compilation problems such as the 
@@ -50,21 +50,21 @@ CREDITS
 */
 
 #ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
-    #include <CSTL/CMake_Macros.h>
+    #include <CSTL/cmake_macros.h>
 #endif // CSTL_USING_CUSTOM_GENERATED_MACROS
 
-#include <CSTL/Headers.h>
-#include <CSTL/Clock.h>
-#include <CSTL/Compilers.h>
-#include <CSTL/CPUs.h>
-#include <CSTL/Debug.h>
-#include <CSTL/Misc.h>
-#include <CSTL/Types.h>
-#include <CSTL/Exception.h>
-#include <CSTL/IO.h>
-#include <CSTL/Memory.h>
-#include <CSTL/OS.h>
-#include <CSTL/Math.h>
-#include <CSTL/String.h>
+#include <CSTL/headers.h>
+#include <CSTL/clock.h>
+#include <CSTL/compilers.h>
+#include <CSTL/cpu.h>
+#include <CSTL/debug.h>
+#include <CSTL/misc.h>
+#include <CSTL/types.h>
+#include <CSTL/exception.h>
+#include <CSTL/io.h>
+#include <CSTL/memory.h>
+#include <CSTL/os.h>
+#include <CSTL/math.h>
+#include <CSTL/string.h>
 
 #endif // _CSTL_CORE_CSTL_H

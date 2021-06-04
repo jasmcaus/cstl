@@ -1,10 +1,10 @@
 /*
-  ______ ____ ________ _
- / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
-| |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
- \_____\_____/  |_|   \______| 
+_ _    _           ______   _______        
+| |  | |    /\    /___  /   |  ____|| |    
+| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+|  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+|_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
@@ -14,10 +14,10 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_TYPES_H
 #define CSTL_TYPES_H
 
-#include <CSTL/Debug.h>
-#include <CSTL/Compilers.h>
+#include <CSTL/debug.h>
+#include <CSTL/compilers.h>
 
-// Base Types
+// Base types/
 /*
 typedef unsigned char       UInt8; 
 typedef          char       Int8;  
@@ -65,7 +65,7 @@ typedef double              Float64;
     typedef int32_t   Int32; 
     typedef uint64_t  UInt64; 
     typedef int64_t   Int64; 
-#endif // Hazel Basic Types 
+#endif // Hazel Basic types/ 
 
 typedef float  Float32; 
 typedef double Float64; 
@@ -144,13 +144,18 @@ typedef Int32 Rune;
 // The same thing as size_t 
 // Ull --> size_t
 // Ll  --> ptrdiff_t
-#if defined(_MSC_VER) && !defined(_WIN64)
-    typedef unsigned int Ull;
-    typedef int          Ll;
+#if defined(_MSC_VER)
+    #if !defined(_WIN64)
+        typedef unsigned int Ull;
+        typedef int          Ll;
+    #else 
+        typedef UInt64  Ull;
+        typedef Int64   Ll;
+    #endif // _WIN64
 #else
     typedef UInt64  Ull;
     typedef Int64   Ll;
-#endif
+#endif // _MSC_VER
 
 // (U)Intptr is only here for semantic reasons really as this library will only support 32/64 bit OSes.
 // Are there any modern OSes (not 16 bit) where Intptr != ptrdiff_t/Ll ?
@@ -176,7 +181,7 @@ typedef Int32 Rune;
 
 CSTL_DEBUG_CHECK(sizeof(UIntptr) == sizeof(Intptr));
 
-// More Useful Types
+// More Useful types/
 #define nullchar '\0' 
  
 #ifndef null 
@@ -192,11 +197,16 @@ CSTL_DEBUG_CHECK(sizeof(UIntptr) == sizeof(Intptr));
 #endif 
 
 // bool is a basic type in C++ and not C
-// We could just have used <stdbool.h> but I prefer this as it results in a smaller binary
-#ifndef __cplusplus
-    typedef Bool8 bool;
-    static const bool false = 0;
-    static const bool true  = 1;
-#endif 
+#ifndef Bool_types_defined
+#define Bool_types_defined
+    #ifdef __cplusplus
+        #define false  false
+        #define true   true
+    #else
+        typedef Bool32 bool;
+        static const bool false = 0;
+        static const bool true = 1;
+    #endif // __cplusplus   
+#endif // Bool_types_defined
 
 #endif // CSTL_TYPES_H

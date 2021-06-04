@@ -2,7 +2,7 @@
 #define CSTL_EXCEPTION_H 
 
 #include <CSTL/String.h>
-#include <CSTL/Types.h>
+#include <CSTL/types.h>
 
 #ifdef __cplusplus
 namespace cstl {
