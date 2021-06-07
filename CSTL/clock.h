@@ -14,7 +14,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_CLOCK_H
 #define CSTL_CLOCK_H
 
-// #include <CSTL/Misc.h>
+// #include <CSTL/misc.h>
 // #include <CSTL/types.h>
 
 

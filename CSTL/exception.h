@@ -1,7 +1,7 @@
 #ifndef CSTL_EXCEPTION_H
 #define CSTL_EXCEPTION_H 
 
-#include <CSTL/String.h>
+#include <CSTL/string.h>
 #include <CSTL/types.h>
 
 #ifdef __cplusplus
