@@ -45,9 +45,18 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
             #define WIN32_MEAN_AND_LEAN 1
             #define VC_EXTRALEAN        1
         #endif
-        // #pragma warning(push, 0)
-        //     #include <Windows.h>
-        // #pragma warning(pop)
+        
+        #pragma warning(push, 0)
+            #include <Windows.h>
+            // This conflicts with certain functionalities, especially in the Hazel Language
+            #ifdef CONST
+                #undef CONST
+            #endif // CONST
+            #ifdef IN
+                #undef IN
+            #endif // IN
+            // #include <io.h>
+        #pragma warning(pop)
         #undef NOMINMAX
 
         #if !defined(CSTL_WINDOWS_H_INCLUDED)

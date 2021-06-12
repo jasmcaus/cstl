@@ -60,7 +60,6 @@ CREDITS
 #include <CSTL/debug.h>
 #include <CSTL/misc.h>
 #include <CSTL/types.h>
-#include <CSTL/exception.h>
 #include <CSTL/io.h>
 #include <CSTL/memory.h>
 #include <CSTL/os.h>

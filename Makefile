@@ -12,3 +12,7 @@ all:
 echo:
 	echo Working!
 .PHONY: echo 
+
+clean:
+	rmdir /S /Q CSTL && mkdir CSTL
+.PHONY: clean
