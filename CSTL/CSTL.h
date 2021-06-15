@@ -65,5 +65,6 @@ CREDITS
 #include <CSTL/os.h>
 #include <CSTL/math.h>
 #include <CSTL/string.h>
+#include <CSTL/vector.h>
 
 #endif // _CSTL_CORE_CSTL_H
