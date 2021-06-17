@@ -1,15 +1,27 @@
+#ifndef CSTL_VECTOR_H
+#define CSTL_VECTOR_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <CSTL/types.h>
 #include <CSTL/debug.h>
 
+// Sources
+// 
+//      1. https://github.com/bigstronkcodeman/C-Generic-Dynamic-Arrays/blob/main/dynarray.c
+//      2. https://github.com/Naitsirc98/C-Vector/blob/master/Vector/Vector/src/vector/vector.c
+//      3. https://github.com/bamless/cvector/blob/master/vector.c
+//      4. https://github.com/nothings/stb/blob/master/stb_c_lexer.h
+ 
+
 // We require this to be a large number, much more than what you might eventually use for more projects,
 // but because CSTL is of great use and importance in the Hazel Programming Language (which needs these
 // many or even more tokens) stored without worrying about `realloc` each time
 #define VEC_INIT_ALLOC_CAP  4096
+#define VECTOR_AT_MACRO(v, i) ((void *)((char *) (v)->internal.data + (i) * (v)->internal.objsize))
 
 typedef struct {
-    void* data;       // pointer to the underlying memory
+    void** data;      // pointer to the underlying memory
     UInt64 capacity;  // allocated memory capacity (no. of elements)
     UInt64 size;      // number of elements currently in `vec`
     UInt64 objsize;   // size of each element in bytes
@@ -26,6 +38,7 @@ struct cstlVector {
     bool (*is_empty)(cstlVector*);
     bool (*reserve)(cstlVector*, UInt64);
     UInt64 (*size)(cstlVector*);
+    UInt64 (*capacity)(cstlVector*);
     bool (*clear)(cstlVector*);
     bool (*push)(cstlVector*, const void*);
     bool (*pop)(cstlVector*);
@@ -52,6 +65,8 @@ static void* vec_end(cstlVector* vec);
 static bool vec_is_empty(cstlVector* vec);
 // Returns the size of `vec` (i.e the number of bytes)
 static UInt64 vec_size(cstlVector* vec);
+// Returns the allocated capacity of `vec` (i.e the number of bytes)
+static UInt64 vec_cap(cstlVector* vec);
 // Reserve memory 
 // Returns `false` on error
 static bool vec_reserve(cstlVector* vec, UInt64 bytes);
@@ -85,16 +100,17 @@ static cstlVector* vec_new(UInt64 objsize, UInt64 capacity) {
     vec->internal.size = 0;
     vec->internal.objsize = objsize;
 
-    vec->at = vec_at;
-    vec->size = vec_size;
-    vec->push = vec_push;
-    vec->pop = vec_pop;
-    vec->begin = vec_begin;
-    vec->end = vec_end;
-    vec->is_empty = vec_is_empty;
-    vec->reserve = vec_reserve;
-    vec->clear = vec_clear;
-    vec->free = vec_delete;
+    vec->at = &vec_at;
+    vec->size = &vec_size;
+    vec->capacity = &vec_cap;
+    vec->push = &vec_push;
+    vec->pop = &vec_pop;
+    vec->begin = &vec_begin;
+    vec->end = &vec_end;
+    vec->is_empty = &vec_is_empty;
+    vec->reserve = &vec_reserve;
+    vec->clear = &vec_clear;
+    vec->free = &vec_delete;
 
     return vec;
 } 
@@ -120,7 +136,7 @@ static void* vec_at(cstlVector* vec, UInt64 elem) {
     if(elem > vec->internal.size)
         return null;
 
-    return (void*)((char*)vec->internal.data + elem * sizeof(cstlVector));
+    return VECTOR_AT_MACRO(vec, elem);
 }
 
 // Return a pointer to first element in `vec`
@@ -159,6 +175,14 @@ static UInt64 vec_size(cstlVector* vec) {
     CSTL_CHECK_NOT_NULL(vec->internal.data, "Expected not null");
 
     return vec->internal.size;
+}
+
+// Returns the allocated capacity of `vec` (i.e the number of bytes)
+static UInt64 vec_cap(cstlVector* vec) {
+    CSTL_CHECK_NOT_NULL(vec, "Expected not null");
+    CSTL_CHECK_NOT_NULL(vec->internal.data, "Expected not null");
+
+    return vec->internal.capacity;
 }
 
 // Reserve memory 
@@ -206,7 +230,7 @@ static bool vec_push(cstlVector* vec, const void* data) {
     CSTL_CHECK_GT(vec->internal.objsize, 0);
 
     if(vec->internal.data != null) {
-        memcpy(vec_at(vec, vec->internal.size), data, vec->internal.objsize);
+        memcpy(VECTOR_AT_MACRO(vec, vec->internal.size), data, vec->internal.objsize);
     }
 
     vec->internal.size++;
@@ -258,3 +282,5 @@ static bool vec_grow(cstlVector* vec, UInt64 capacity) {
 
     return true;
 }
+
+#endif // CSTL_VECTOR_H

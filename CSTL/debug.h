@@ -5,7 +5,6 @@ _ _    _           ______   _______
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
 | |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
-
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
 Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
@@ -20,6 +19,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #include <CSTL/os.h>
 #include <CSTL/headers.h>
 #include <CSTL/misc.h>
+
 
 // ========================= Debug + Asserts =========================
 // This macro is only for simple assertion checks (that don't require a message to STDOUT).
@@ -193,22 +193,22 @@ static inline int cstlShouldDecomposeMacro(char const* actual, char const* expec
     CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long unsigned int i);
     CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(const void* p);
 
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(float f) { printf("%f", CSTL_CAST(double, f));    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(double d) { printf("%f", d);    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long double d) { printf("%Lf", d);    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(int i) { printf("%d", i);    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(unsigned int i) { printf("%u", i);    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long int i) { printf("%ld", i);    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long unsigned int i) { printf("%lu", i);    }
-    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(const void* p) { printf("%p", p);    }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(float f) { printf("%f", CSTL_CAST(double, f)); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(double d) { printf("%f", d); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long double d) { printf("%Lf", d); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(int i) { printf("%d", i); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(unsigned int i) { printf("%u", i); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long int i) { printf("%ld", i); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long unsigned int i) { printf("%lu", i); }
+    CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(const void* p) { printf("%p", p); }
 
     // long long is in C++ only
     #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L) || defined(__cplusplus) && (__cplusplus >= 201103L)
         CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long long int i);
         CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long long unsigned int i);
 
-        CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long long int i) { printf("%lld", i);    }
-        CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long long unsigned int i) { printf("%llu", i);    }
+        CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long long int i) { printf("%lld", i); }
+        CSTL_WEAK CSTL_OVERLOADABLE void CSTL_OVERLOAD_PRINTER(long long unsigned int i) { printf("%llu", i); }
     #endif // __STDC_VERSION__
 
 #elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
@@ -239,7 +239,7 @@ static inline int cstlShouldDecomposeMacro(char const* actual, char const* expec
     // If we're here, this means that the Compiler does not support overloadable methods
     #define CSTL_OVERLOAD_PRINTER(...)                                                             \
         printf("Error: Your compiler does not support overloadable methods.");                     \
-        printf("If you think this was an error, please file an issue on Tau's Github repo."   )
+        printf("If you think this was an error, please file an issue on Hazel's Github repo."   )
 #endif // CSTL_OVERLOADABLE
 
 // ifCondFailsThenPrint is the string representation of the opposite of the truthy value of `cond`
@@ -421,5 +421,6 @@ static inline int cstlShouldDecomposeMacro(char const* actual, char const* expec
 
 #define CSTL_WARN(msg)     \
     cstlColouredPrintf(CSTL_COLOUR_WARN, "%s:%u:\nWARNING: %s\n", __FILE__, __LINE__, #msg)
+
 
 #endif // CSTL_DEBUG_H
