@@ -8,7 +8,7 @@ import os
     This script copies the latest code from there and pastes it here, available for use without explicitely using Hazel. 
 """
 
-SOURCE = r'F:\Documents\Dev\Github\hazel\hazel\core'
+SOURCE = r'F:\Documents\Dev\hazel\hazel\core'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CSTL')
 
 HAZEL_COPYRIGHT = \

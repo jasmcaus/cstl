@@ -94,7 +94,7 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
             case CSTL_COLOUR_WARN:     str = "\033[1;33m"; break;
             case CSTL_COLOUR_CYAN:     str = "\033[1;36m"; break;
             case CSTL_COLOUR_BOLD:     str = "\033[1m"; break;
-            default:            str = "\033[0m"; break;
+            default:                   str = "\033[0m"; break;
         }
         printf("%s", str);
         n = printf("%s", buffer);
@@ -117,7 +117,7 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
             case CSTL_COLOUR_WARN:       attr = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY; break;
             case CSTL_COLOUR_BOLD:       attr = FOREGROUND_BLUE | FOREGROUND_GREEN |FOREGROUND_RED | 
                                          FOREGROUND_INTENSITY; break;
-            default:              attr = 0; break;
+            default:                     attr = 0; break;
         }
         if(attr != 0)
             SetConsoleTextAttribute(h, attr);
@@ -411,7 +411,7 @@ static inline int cstlShouldDecomposeMacro(char const* actual, char const* expec
 #define GET_3RD_ARG(arg1, arg2, arg3, ...)   arg3
 
 #define CSTL_CHECK_1_ARGS(cond)              __CSTL_CHECK__(cond, CHECK, "FAILED")
-#define CSTL_CHECK_2_ARGS(cond, message)     __CSTL_CHECK__(cond, CHECK, message)
+#define CSTL_CHECK_2_ARGS(cond, ...)         __CSTL_CHECK__(cond, CHECK, __VA_ARGS__)
 #define CSTL_CHECK_MACRO_CHOOSER(...)        GET_3RD_ARG(__VA_ARGS__, CSTL_CHECK_2_ARGS, CSTL_CHECK_1_ARGS, )
 
 #define CSTL_CHECK(...)      CSTL_CHECK_MACRO_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
