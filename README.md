@@ -5,9 +5,9 @@ Please note that most features in this project are **highly** experimental and *
 Nevertheless, it is an interesting project as it exposes the inner layers of what's always regarded as a 'black box'. 
 
 ## Usage 
-Include `CSTL`. That's all!
+Include `cstl`. That's all!
 ```c
-#include <CSTL/CSTL.h>
+#include <cstl/cstl.h>
 ```
 
 ## Contributing
