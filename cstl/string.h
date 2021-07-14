@@ -14,9 +14,9 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_STRING_H
 #define CSTL_STRING_H
 
-#include <CSTL/types.h>
-#include <CSTL/math.h>
-#include <CSTL/debug.h>
+#include <cstl/types.h>
+#include <cstl/math.h>
+#include <cstl/debug.h>
 #include <stdlib.h> // for exit(1)
 
 // UTF8 Inspiration: https://github.com/sheredom/utf8.h/blob/master/utf8.h

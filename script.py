@@ -9,7 +9,7 @@ import os
 """
 
 SOURCE = r'C:\Users\zeta\Documents\dev\hazel\hazel\core'
-HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'CSTL')
+HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
 
 HAZEL_COPYRIGHT = \
 """
@@ -27,7 +27,7 @@ CSTL_COPYRIGHT = \
  / ____/ ____|__   __/| |
 | |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
 | |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/CSTL
+| |___ ____) |  | |   | |____  https://github.com/jasmcaus/cstl
  \_____\_____/  |_|   \______| 
 """
 
@@ -37,7 +37,7 @@ for file in os.listdir(SOURCE):
     if not path.endswith(('hcore.h', 'cmake_macros.h')):
         destination = os.path.join(HERE, file)
     else:
-        destination = os.path.join(HERE, 'CSTL.h')
+        destination = os.path.join(HERE, 'cstl.h')
 
     # Copy contents
     shutil.copy(path, destination)
@@ -46,7 +46,7 @@ for file in os.listdir(SOURCE):
     with open(destination) as f:
         s = f.read();
     
-    s = s.replace('#include <hazel/core/', '#include <CSTL/')
+    s = s.replace('#include <hazel/core/', '#include <cstl/')
     s = s.replace("HAZEL_", "CSTL_")
     s = s.replace(HAZEL_COPYRIGHT, CSTL_COPYRIGHT)
     s = s.replace("namespace Hazel", "namespace cstl")

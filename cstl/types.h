@@ -14,8 +14,8 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_TYPES_H
 #define CSTL_TYPES_H
 
-#include <CSTL/debug.h>
-#include <CSTL/compilers.h>
+#include <cstl/debug.h>
+#include <cstl/compilers.h>
 
 // Base types/
 /*

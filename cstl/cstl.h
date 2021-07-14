@@ -50,21 +50,22 @@ CREDITS
 */
 
 #ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
-    #include <CSTL/cmake_macros.h>
+    #include <cstl/cmake_macros.h>
 #endif // CSTL_USING_CUSTOM_GENERATED_MACROS
 
-#include <CSTL/headers.h>
-#include <CSTL/clock.h>
-#include <CSTL/compilers.h>
-#include <CSTL/cpu.h>
-#include <CSTL/debug.h>
-#include <CSTL/misc.h>
-#include <CSTL/types.h>
-#include <CSTL/io.h>
-#include <CSTL/memory.h>
-#include <CSTL/os.h>
-#include <CSTL/math.h>
-#include <CSTL/string.h>
-#include <CSTL/vector.h>
+#include <cstl/headers.h>
+#include <cstl/clock.h>
+#include <cstl/compilers.h>
+#include <cstl/cpu.h>
+#include <cstl/debug.h>
+#include <cstl/misc.h>
+#include <cstl/types.h>
+#include <cstl/io.h>
+#include <cstl/memory.h>
+#include <cstl/os.h>
+#include <cstl/math.h>
+#include <cstl/buffer.h>
+#include <cstl/string.h>
+#include <cstl/vector.h>
 
 #endif // _CSTL_CORE_CSTL_H

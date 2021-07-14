@@ -2,7 +2,7 @@
 #ifndef CSTL_MATH_H
 #define CSTL_MATH_H
 
-#include <CSTL/types.h>
+#include <cstl/types.h>
 
 #ifdef __cplusplus
 extern "C" {

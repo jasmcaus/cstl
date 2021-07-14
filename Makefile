@@ -6,13 +6,9 @@ $(VERBOSE)MAKESILENT = -s
 $(VERBOSE).SILENT:
 
 all:
-	python script.py 
+	python script.py
 .PHONY: all
 
 echo:
 	echo Working!
-.PHONY: echo 
-
-clean:
-	rmdir /S /Q CSTL && mkdir CSTL
-.PHONY: clean
+.PHONY: echo

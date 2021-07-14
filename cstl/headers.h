@@ -14,7 +14,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #ifndef CSTL_HEADERS_H
 #define CSTL_HEADERS_H
 
-#include <CSTL/os.h>
+#include <cstl/os.h>
 
 
 // Headers ==========================================

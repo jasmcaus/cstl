@@ -16,9 +16,9 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
-#include <CSTL/os.h>
-#include <CSTL/headers.h>
-#include <CSTL/misc.h>
+#include <cstl/os.h>
+#include <cstl/headers.h>
+#include <cstl/misc.h>
 
 
 // ========================= Debug + Asserts =========================
