@@ -8,7 +8,7 @@ import os
     This script copies the latest code from there and pastes it here, available for use without explicitely using Hazel. 
 """
 
-SOURCE = r'C:\Users\zeta\Documents\dev\hazel\hazel\core'
+SOURCE = r'~/Documents/dev/hazel/hazel/core'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
 
 HAZEL_COPYRIGHT = \
@@ -47,9 +47,12 @@ for file in os.listdir(SOURCE):
         s = f.read();
     
     s = s.replace('#include <hazel/core/', '#include <cstl/')
-    s = s.replace("HAZEL_", "CSTL_")
+    s = s.replace("HAZEL", "CSTL")
     s = s.replace(HAZEL_COPYRIGHT, CSTL_COPYRIGHT)
     s = s.replace("namespace Hazel", "namespace cstl")
+    
+    s = s.replace('\n#ifndef HAZEL', '')
+    s = s.replace('#endif // HAZEL', '')
 
     with open(destination, 'w') as f:
         f.write(s)

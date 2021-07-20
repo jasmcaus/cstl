@@ -6,7 +6,7 @@ $(VERBOSE)MAKESILENT = -s
 $(VERBOSE).SILENT:
 
 all:
-	python script.py
+	python3 script.py
 .PHONY: all
 
 echo:
