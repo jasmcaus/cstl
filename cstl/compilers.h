@@ -1,9 +1,9 @@
 /*
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
@@ -38,7 +38,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #elif defined(__GNUC__) && !defined(INTEL_COMPILER) && !defined(llvm)
     #define CSTL_COMPILER_GCC 1
 #else 
-    #error Unknown Compiler (Hazel currently supports only MSVC, GCC and Clang)
+    #error Unknown Compiler (Adorad currently supports only MSVC, GCC and Clang)
 #endif 
 
 // Disable Compiler Warnings

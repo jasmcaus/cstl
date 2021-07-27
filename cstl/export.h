@@ -19,8 +19,8 @@
 // Also, if CSTL is built as a static library, we recommend everything dependent on CSTL to be built 
 // statically. If CSTL is built as a shared library, everything dependent on it should be built as shared. 
 // 
-// In the Hazel project, all native libraries shall use the macro CSTL_BUILD_SHARED_LIB to check whether 
-// Hazel is building shared or static libraries.
+// In the Adorad project, all native libraries shall use the macro CSTL_BUILD_SHARED_LIB to check whether 
+// Adorad is building shared or static libraries.
 
 #ifdef _WIN32
     #define CSTL_HIDDEN

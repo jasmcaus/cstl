@@ -1,9 +1,9 @@
 /*
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
@@ -239,7 +239,7 @@ static inline int cstlShouldDecomposeMacro(char const* actual, char const* expec
     // If we're here, this means that the Compiler does not support overloadable methods
     #define CSTL_OVERLOAD_PRINTER(...)                                                             \
         printf("Error: Your compiler does not support overloadable methods.");                     \
-        printf("If you think this was an error, please file an issue on Hazel's Github repo."   )
+        printf("If you think this was an error, please file an issue on Adorad's Github repo."   )
 #endif // CSTL_OVERLOADABLE
 
 // ifCondFailsThenPrint is the string representation of the opposite of the truthy value of `cond`

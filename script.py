@@ -2,22 +2,22 @@ import shutil
 import os 
 
 """
-    Most of the code for this project is written as part of ease of use at Hazel Org, the organization behind the creation of 
-    the Hazel Programming Language (check it out btw). 
+    Most of the code for this project is written as part of ease of use at Adorad Org, the organization behind the creation of 
+    the Adorad Programming Language (check it out btw). 
 
-    This script copies the latest code from there and pastes it here, available for use without explicitely using Hazel. 
+    This script copies the latest code from there and pastes it here, available for use without explicitely using Adorad. 
 """
 
-SOURCE = r'~/Documents/dev/hazel/hazel/core'
+SOURCE = r'~/Documents/dev/adorad/adorad/core'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
 
-HAZEL_COPYRIGHT = \
+ADORAD_COPYRIGHT = \
 """
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/Hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/Adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 """
 
@@ -46,13 +46,13 @@ for file in os.listdir(SOURCE):
     with open(destination) as f:
         s = f.read();
     
-    s = s.replace('#include <hazel/core/', '#include <cstl/')
-    s = s.replace("HAZEL", "CSTL")
-    s = s.replace(HAZEL_COPYRIGHT, CSTL_COPYRIGHT)
-    s = s.replace("namespace Hazel", "namespace cstl")
+    s = s.replace('#include <adorad/core/', '#include <cstl/')
+    s = s.replace("ADORAD", "CSTL")
+    s = s.replace(ADORAD_COPYRIGHT, CSTL_COPYRIGHT)
+    s = s.replace("namespace Adorad", "namespace cstl")
     
-    s = s.replace('\n#ifndef HAZEL', '')
-    s = s.replace('#endif // HAZEL', '')
+    s = s.replace('\n#ifndef ADORAD', '')
+    s = s.replace('#endif // ADORAD', '')
 
     with open(destination, 'w') as f:
         f.write(s)

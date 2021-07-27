@@ -1,9 +1,9 @@
 /*
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
@@ -18,7 +18,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
 #include <cstl/debug.h>
 
 // We require this to be a large number, much more than what you might eventually use for more projects,
-// but because CSTL is of great use and importance in the Hazel Programming Language (which needs these
+// but because CSTL is of great use and importance in the Adorad Programming Language (which needs these
 // many or even more tokens) stored without worrying about `realloc` each time
 #define VEC_INIT_ALLOC_CAP  4096
 #define VECTOR_AT_MACRO(v, i) ((void *)((char *) (v)->internal.data + (i) * (v)->internal.objsize))

@@ -1,9 +1,9 @@
 /*
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
@@ -65,7 +65,7 @@ typedef double              Float64;
     typedef int32_t   Int32; 
     typedef uint64_t  UInt64; 
     typedef int64_t   Int64; 
-#endif // Hazel Basic types/ 
+#endif // Adorad Basic types/ 
 
 typedef float  Float32; 
 typedef double Float64; 
@@ -132,7 +132,7 @@ typedef Int32 Rune;
         #define INTSIZE_MAX Int64_MAX
     #endif 
 #else
-        #error Unknown architecture size. Hazel only supports 32-bit and 64-bit architectures.
+        #error Unknown architecture size. Adorad only supports 32-bit and 64-bit architectures.
 #endif 
 
 #define Float32_MIN 1.17549435e-38f

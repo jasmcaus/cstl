@@ -1,9 +1,9 @@
 /*
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
@@ -42,7 +42,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
         #endif
 
     #else 
-        #error This Unix Operating System in not supported by Hazel.
+        #error This Unix Operating System in not supported by Adorad.
     #endif 
 
 #elif defined(_gnu_linux_) || defined(__linux__) && !defined(CSTL_OS_LINUX)
@@ -61,7 +61,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
     #define CSTL_OS_HAIKU
 
 #else
-    #error This Operating System in not supported by Hazel
+    #error This Operating System in not supported by Adorad
 #endif
 
 
@@ -83,7 +83,7 @@ Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
     #define CSTL_ARCH_ARM       1
 #else
     #define CSTL_ARCH_UNKNOWN
-    // #error This Architecture is not supported by Hazel
+    // #error This Architecture is not supported by Adorad
 #endif // __x86_64
 
 // Generic 32 vs 64 bit

@@ -1,9 +1,9 @@
 /*
 _ _    _           ______   _______        
 | |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Hazel - The Fast, Expressive & Elegant Programming Language
+| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
 |  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/HazelLang/hazel/
+| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
 |_|_ |_|/_/    \_\/_______\ |______|_\______|
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
@@ -43,7 +43,7 @@ CREDITS
     If you need to use an individual file, either include this file (hcore.h) _once_ or pick and choose what you need - 
     being explicit never hurts. 
 
-    For the development of the Hazel Language, it is required (otherwise you'll run into compilation problems such as the 
+    For the development of the Adorad Language, it is required (otherwise you'll run into compilation problems such as the 
     one above) you choose the latter option. 
     
     Reminder: Be Explicit. 
