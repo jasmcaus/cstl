@@ -1,20 +1,21 @@
 /*
-_ _    _           ______   _______        
-| |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
-|  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/adorad/
-|_|_ |_|/_/    \_\/_______\ |______|_\______|
+  ______ ____ ________ _
+ / ____/ ____|__   __/| |
+| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
+| |    \___ \   | |   | |      Languages: C, C++ and Assembly
+| |___ ____) |  | |   | |____  https://github.com/jasmcaus/cstl
+ \_____\_____/  |_|   \______| 
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
-Copyright (c) 2021 Jason Dsouza <http://github.com/jasmcaus>
+Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 */
 
 #ifndef CSTL_BUFFER_H
 #define CSTL_BUFFER_H
 
 #include <string.h>
+#include <stdlib.h>
 #include <cstl/types.h>
 #include <cstl/debug.h>
 
@@ -44,7 +45,7 @@ static char* buff_end(cstlBuffer* buffer);
 // Is the buffer data empty?
 static bool buff_is_empty(cstlBuffer* buffer);
 // Assign `new` to the buffer data
-static void buff_set(cstlBuffer* buffer, char* new);
+static void buff_set(cstlBuffer* buffer, char* new_buff);
 // Free the cstlBuffer from it's associated memory
 static void buff_free(cstlBuffer* buffer);
 
@@ -108,11 +109,11 @@ static bool buff_is_empty(cstlBuffer* buffer) {
 }
 
 // Assign `new` to the buffer data
-static void buff_set(cstlBuffer* buffer, char* new) {
+static void buff_set(cstlBuffer* buffer, char* new_buff) {
     CSTL_CHECK_NOT_NULL(buffer, "Expected not null");
 
-    buffer->data = new;
-    buffer->length = (UInt64)strlen(new);
+    buffer->data = new_buff;
+    buffer->length = (UInt64)strlen(new_buff);
 }
 
 // Free the cstlBuffer from it's associated memory

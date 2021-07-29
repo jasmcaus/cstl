@@ -8,17 +8,17 @@ import os
     This script copies the latest code from there and pastes it here, available for use without explicitely using Adorad. 
 """
 
-SOURCE = r'~/Documents/dev/adorad/adorad/core'
+SOURCE = r'/home/jas/Documents/dev/adorad/adorad/core'
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
 
 ADORAD_COPYRIGHT = \
 """
-_ _    _           ______   _______        
-| |  | |    /\    /___  /   |  ____|| |    
-| |__| |   /  \      / /    | |__   | |       Adorad - The Fast, Expressive & Elegant Programming Language
-|  __  |  / /\ \    / /     |  __|  | |       Languages: C, C++, and Assembly
-| |  | | / ____ \  / /___   | |____ | |____   https://github.com/AdoradLang/Adorad/
-|_|_ |_|/_/    \_\/_______\ |______|_\______|
+          _____   ____  _____            _____  
+    /\   |  __ \ / __ \|  __ \     /\   |  __ \ 
+   /  \  | |  | | |  | | |__) |   /  \  | |  | | Adorad - The Fast, Expressive & Elegant Programming Language
+  / /\ \ | |  | | |  | |  _  /   / /\ \ | |  | | Languages: C, C++, and Assembly
+ / ____ \| |__| | |__| | | \ \  / ____ \| |__| | https://github.com/adorad/adorad/
+/_/    \_\_____/ \____/|_|  \_\/_/    \_\_____/ 
 """
 
 CSTL_COPYRIGHT = \
