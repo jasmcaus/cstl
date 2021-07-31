@@ -33,8 +33,11 @@ CSTL_COPYRIGHT = \
 
 for file in os.listdir(SOURCE):
     path = os.path.join(SOURCE, file)
+    
+    if path.endswith('cmake_macros.h'):
+        continue
 
-    if not path.endswith(('hcore.h', 'cmake_macros.h')):
+    if not path.endswith('adcore.h'):
         destination = os.path.join(HERE, file)
     else:
         destination = os.path.join(HERE, 'cstl.h')
