@@ -11,17 +11,34 @@ SPDX-License-Identifier: MIT
 Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 */
 
-#ifndef _CSTL_IO_H
-#define _CSTL_IO_H
+#ifndef CSTL_IO_H
+#define CSTL_IO_H
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+
+#include <cstl/types.h>
+#include <cstl/debug.h>
+
+typedef struct File {
+    char* full_path;
+    char* basename;
+    int fileid;
+
+    char* contents;
+} File;
+
+char* readFile(const char* fname);
+bool file_exists(char* path);
 
 char* readFile(const char* fname) {
     FILE* file = fopen(fname, "rb"); 
     
     if(!file) {
-        printf("Could not open file: <%s>\n", fname);
+        cstlColouredPrintf(CSTL_COLOUR_ERROR, "Could not open file: <%s>\n", fname);
+        cstlColouredPrintf(CSTL_COLOUR_ERROR, "%s\n", !file_exists(fname) ?  
+                            "FileNotFoundError: File does not exist." : "");
         exit(1);
     }
 
@@ -43,4 +60,10 @@ char* readFile(const char* fname) {
     return buffer;
 }
 
-#endif // _CSTL_IO_H
+
+bool file_exists(char* path) {
+    struct stat st;
+    return !stat(path, &st);
+}
+
+#endif // CSTL_IO_H

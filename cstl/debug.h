@@ -17,6 +17,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <cstl/os.h>
 #include <cstl/headers.h>
 #include <cstl/misc.h>

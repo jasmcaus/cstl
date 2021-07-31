@@ -31,31 +31,42 @@ CSTL_COPYRIGHT = \
  \_____\_____/  |_|   \______| 
 """
 
-for file in os.listdir(SOURCE):
-    path = os.path.join(SOURCE, file)
-    
-    if path.endswith('cmake_macros.h'):
-        continue
+def run():
+    if not os.path.exists(HERE):
+        os.mkdir(HERE)
 
-    if not path.endswith('adcore.h'):
-        destination = os.path.join(HERE, file)
-    else:
-        destination = os.path.join(HERE, 'cstl.h')
+    for file in os.listdir(SOURCE):
+        path = os.path.join(SOURCE, file)
 
-    # Copy contents
-    shutil.copy(path, destination)
+        if path.endswith('cmake_macros.h'):
+            continue
 
-    # Replace any #includes
-    with open(destination) as f:
-        s = f.read();
-    
-    s = s.replace('#include <adorad/core/', '#include <cstl/')
-    s = s.replace("ADORAD", "CSTL")
-    s = s.replace(ADORAD_COPYRIGHT, CSTL_COPYRIGHT)
-    s = s.replace("namespace Adorad", "namespace cstl")
-    
-    s = s.replace('\n#ifndef ADORAD', '')
-    s = s.replace('#endif // ADORAD', '')
+        if not path.endswith('adcore.h'):
+            destination = os.path.join(HERE, file)
+        else:
+            destination = os.path.join(HERE, 'cstl.h')
 
-    with open(destination, 'w') as f:
-        f.write(s)
+        # Copy contents
+        shutil.copy(path, destination)
+
+        # Replace any #includes
+        with open(destination) as f:
+            s = f.read();
+
+        # s = s.replace('\n#ifndef _ADORAD_', '')
+        s = s.replace('#ifndef _ADORAD_', '')
+        s = s.replace('#endif // _ADORAD_', '')
+        s = s.replace('#include <adorad/core/', '#include <cstl/')
+        s = s.replace("ADORAD", "CSTL")
+        s = s.replace(ADORAD_COPYRIGHT, CSTL_COPYRIGHT)
+        s = s.replace("namespace Adorad", "namespace cstl")
+
+        s = s.replace('\n#ifndef ADORAD', '')
+        s = s.replace('#endif // ADORAD', '')
+
+        with open(destination, 'w') as f:
+            f.write(s)
+
+
+if __name__ == '__main__':
+    run()

@@ -15,7 +15,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #define CSTL_BUFFER_H
 
 #include <string.h>
-#include <stdlib.h>
 #include <cstl/types.h>
 #include <cstl/debug.h>
 
@@ -23,6 +22,7 @@ typedef struct cstlBuffer cstlBuffer;
 struct cstlBuffer {
     char* data;    // buffer data
     UInt64 length; // buffer size
+
 
     char (*at)(cstlBuffer*, UInt64);
     // Front and back iterators
@@ -32,6 +32,7 @@ struct cstlBuffer {
     // Buffer things
     void (*set)(cstlBuffer*, char*);
     void(*free)(cstlBuffer*);
+
 };
 
 // Create a new `cstlBuffer`
@@ -63,12 +64,15 @@ static cstlBuffer* buff_new(char* buff_data) {
 
     buffer->data = buff_data;
     buffer->length = len;
+
+
     buffer->at = &buff_at;
     buffer->begin = &buff_begin;
     buffer->end = &buff_end;
     buffer->is_empty = &buff_is_empty;
     buffer->set = &buff_set;
     buffer->free = &buff_free;
+
 
     return buffer;
 }
