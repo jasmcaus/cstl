@@ -19,6 +19,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #include <cstl/debug.h>
 
 typedef struct cstlBuffer cstlBuffer;
+
 struct cstlBuffer {
     char* data;    // buffer data
     UInt64 length; // buffer size

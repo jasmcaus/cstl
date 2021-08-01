@@ -31,11 +31,19 @@ CSTL_COPYRIGHT = \
  \_____\_____/  |_|   \______| 
 """
 
-H = """\
+A = """\
 
 #ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
     #include <adorad/core/cmake_macros.h>
 #endif // CSTL_USING_CUSTOM_GENERATED_MACROS
+"""
+
+B = """\
+
+#ifndef _ADORAD_
+      #define _ADORAD_
+#endif // _ADORAD_
+
 """
 
 def run():
@@ -60,7 +68,10 @@ def run():
         with open(destination) as f:
             s = f.read();
 
-        s = s.replace(H, '')
+        s = s.replace(A, '')
+        # s = s.replace(B, '')
+        s = s.replace('typedef cstlBuffer Buff;\n', '')
+        s = s.replace('typedef cstlVector Vec;', '')
         s = s.replace('#ifndef _ADORAD_', '')
         s = s.replace('#endif // _ADORAD_', '')
         s = s.replace('#include <adorad/core/', '#include <cstl/')
