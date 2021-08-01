@@ -31,6 +31,13 @@ CSTL_COPYRIGHT = \
  \_____\_____/  |_|   \______| 
 """
 
+H = """\
+
+#ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
+    #include <adorad/core/cmake_macros.h>
+#endif // CSTL_USING_CUSTOM_GENERATED_MACROS
+"""
+
 def run():
     if not os.path.exists(HERE):
         os.mkdir(HERE)
@@ -53,7 +60,7 @@ def run():
         with open(destination) as f:
             s = f.read();
 
-        # s = s.replace('\n#ifndef _ADORAD_', '')
+        s = s.replace(H, '')
         s = s.replace('#ifndef _ADORAD_', '')
         s = s.replace('#endif // _ADORAD_', '')
         s = s.replace('#include <adorad/core/', '#include <cstl/')

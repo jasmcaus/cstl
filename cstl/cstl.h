@@ -49,10 +49,6 @@ CREDITS
     Reminder: Be Explicit. 
 */
 
-#ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
-    #include <cstl/cmake_macros.h>
-#endif // CSTL_USING_CUSTOM_GENERATED_MACROS
-
 #include <cstl/headers.h>
 #include <cstl/clock.h>
 #include <cstl/compilers.h>
