@@ -49,17 +49,18 @@ CREDITS
     Reminder: Be Explicit. 
 */
 
+#include <cstl/os_defs.h>
+#include <cstl/cpu.h>
+#include <cstl/compilers.h>
+#include <cstl/types.h>
 #include <cstl/headers.h>
 #include <cstl/clock.h>
-#include <cstl/compilers.h>
-#include <cstl/cpu.h>
 #include <cstl/debug.h>
 #include <cstl/misc.h>
-#include <cstl/types.h>
 #include <cstl/io.h>
 #include <cstl/memory.h>
-#include <cstl/os.h>
 #include <cstl/math.h>
+#include <cstl/os.h>
 #include <cstl/buffer.h>
 #include <cstl/string.h>
 #include <cstl/vector.h>

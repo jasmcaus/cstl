@@ -14,10 +14,8 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CSTL_HEADERS_H
 #define CSTL_HEADERS_H
 
-#include <cstl/os.h>
+#include <cstl/os_defs.h>
 
-
-// Headers ==========================================
 #if defined(_WIN32) && !defined(__MINGW32__)
     #ifndef _CRT_SECURE_NO_WARNINGS
         #define _CRT_SECURE_NO_WARNINGS
@@ -29,9 +27,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     #define _LARGEFILE64_SOURCE
 #endif
 
-
 // TODO(jasmcaus): How many of these headers do I really need?
-// #include <stdarg.h>
 #if !defined(CSTL_OS_WINDOWS)
     #include <stddef.h>
     #include <stdarg.h>
@@ -39,15 +35,22 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #if defined(CSTL_OS_WINDOWS)
     #if !defined(CSTL_NO_WINDOWS_H)
-        #define NOMINMAX 1
-        #if !defined(CSTL_WINDOWS_H_INCLUDED)
+        #ifndef NOMINMAX
+            #define NOMINMAX 1
+        #endif // NOMINMAX
+        #ifndef WIN32_LEAN_AND_MEAN
             #define WIN32_LEAN_AND_MEAN 1
+        #endif // WIN32_LEAN_AND_MEAN
+        #ifndef WIN32_MEAN_AND_LEAN
             #define WIN32_MEAN_AND_LEAN 1
+        #endif // WIN32_MEAN_AND_LEAN
+        #ifndef VC_EXTRALEAN
             #define VC_EXTRALEAN        1
-        #endif
+        #endif // VC_EXTRALEAN
         
         #pragma warning(push, 0)
             #include <Windows.h>
+            // #include <io.h>
             // This conflicts with certain functionalities, especially in the Adorad Language
             #ifdef CONST
                 #undef CONST
@@ -55,8 +58,11 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
             #ifdef IN
                 #undef IN
             #endif // IN
-            // #include <io.h>
+            #ifdef STRING
+                #undef STRING
+            #endif // STRING
         #pragma warning(pop)
+
         #undef NOMINMAX
 
         #if !defined(CSTL_WINDOWS_H_INCLUDED)
