@@ -82,6 +82,12 @@ def run():
         s = s.replace('\n#ifndef ADORAD', '')
         s = s.replace('#endif // ADORAD', '')
 
+        if file.endswith('misc.h'):
+            s = s.replace('cast', 'CSTL_CAST')
+            s = s.replace('ptrCSTL_CAST', 'CSTL_PTRCAST')
+            s = s.replace('static_CSTL_CAST', 'static_cast')
+            s = s.replace('reinterpret_CSTL_CAST', 'reinterpret_cast')
+
         with open(destination, 'w') as f:
             f.write(s)
 
