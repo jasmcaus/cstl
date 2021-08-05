@@ -62,6 +62,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 
 // Casts
+#define CSTL_CAST(type)  (type)
 #ifdef __cplusplus
     #define CSTL_CAST(type, x)       static_cast<type>(x)
     #define CSTL_PTRCAST(type, x)    reinterpret_cast<type>(x)
@@ -69,7 +70,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     #define CSTL_CAST(type, x)       ((type)x)
     #define CSTL_PTRCAST(type, x)    ((type)x)
 #endif // __cplusplus
-
 
 // Noexcept
 #if defined(__cplusplus) && (__cplusplus >= 201103L)
