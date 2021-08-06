@@ -17,8 +17,13 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #include <string.h>
 #include <cstl/debug.h>
 #include <cstl/types.h>
-#include <cstl/string.h>
+#include <cstl/char.h>
 #include <cstl/misc.h>
+
+/*
+    A `cstlBuffer` is a Fixed-Size Buffer.
+    It works like a string, except that the actual type is just a pointer to the first `char` element
+*/
 
 typedef struct cstlBuffer cstlBuffer;
 
@@ -49,7 +54,7 @@ static inline cstlBuffer* buff_tolower(cstlBuffer* buffer);
 
 // Create a new `cstlBuffer`
 static cstlBuffer* buff_new(char* buff_data) {
-    cstlBuffer* buffer = (cstlBuffer*)calloc(1, sizeof(cstlBuffer));
+    cstlBuffer* buffer = cast(cstlBuffer*)calloc(1, sizeof(cstlBuffer));
     CSTL_CHECK_NOT_NULL(buffer, "Could not allocate memory. Memory full.");
 
     buffer->is_utf8 = false;
@@ -105,7 +110,7 @@ static UInt32 __internal_strlength(const char* str, bool is_utf8) {
 
         // Handle the first few characters by reading one character at a time.
         // Do this until CHAR_PTR is aligned on a longword boundary.
-        for (char_ptr = str; ((unsigned long int) char_ptr & (sizeof (longword) - 1)) != 0; ++char_ptr) {
+        for(char_ptr = str; ((unsigned long int) char_ptr & (sizeof (longword) - 1)) != 0; ++char_ptr) {
             if (*char_ptr == nullchar)
                 return char_ptr - str;
         }
@@ -119,7 +124,7 @@ static UInt32 __internal_strlength(const char* str, bool is_utf8) {
         //     bits:  01111110 11111110 11111110 11111111
         //     bytes: AAAAAAAA BBBBBBBB CCCCCCCC DDDDDDDD
         // The 1-bits make sure that carries propagate to the next 0-bit.
-        // The 0-bits provide holes for carries to fall into.
+        // The 0-bits provide holes forcarries to fall into.
         himagic = 0x80808080L;
         lomagic = 0x01010101L;
 
@@ -134,7 +139,7 @@ static UInt32 __internal_strlength(const char* str, bool is_utf8) {
 
         // Instead of the traditional loop which tests each character, we will test a longword at a time.
         // The tricky part is testing if *any of the four* bytes in the longword in question are zero.
-        for (;;) {
+        for(;;) {
             longword = *longword_ptr++;
 
             if (((longword - lomagic) & ~longword & himagic) != 0) {
@@ -288,7 +293,7 @@ static bool buff_cmp_nocase(cstlBuffer* buff1, cstlBuffer* buff2) {
     if(s1 == s2)
         return true;
     
-    while((result = toLower(*s1) - toLower(*s2++)) == 0) {
+    while((result = char_to_lower(*s1) - char_to_lower(*s2++)) == 0) {
         if(*s1++ == nullchar)
             break;
     }
@@ -363,7 +368,7 @@ static inline cstlBuffer* buff_tolower(cstlBuffer* buffer) {
     strcpy(temp, buffer->data);
     int i = 0;
     while(*temp) {
-        *temp = toLower(*temp);
+        *temp = char_to_lower(*temp);
         temp++;
         i++;
     }
@@ -383,7 +388,7 @@ static inline cstlBuffer* buff_toupper(cstlBuffer* buffer) {
     strcpy(temp, buffer->data);
     int i = 0;
     while(*temp) {
-        *temp = toUpper(*temp);
+        *temp = char_to_upper(*temp);
         temp++;
         i++;
     }

@@ -62,7 +62,15 @@ CREDITS
 #include <cstl/math.h>
 #include <cstl/os.h>
 #include <cstl/buffer.h>
-#include <cstl/string.h>
+#include <cstl/char.h>
 #include <cstl/vector.h>
+
+#ifdef CSTL_INCLUDE_HASH_H
+    #include <cstl/hash.h>
+#endif // CSTL_INCLUDE_HASH_H
+
+#ifdef CSTL_INCLUDE_WINDOWS_H
+    #include <cstl/windows.h>
+#endif // CSTL_INCLUDE_WINDOWS_H
 
 #endif // CSTL_CORE_CSTL_H

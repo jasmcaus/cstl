@@ -34,6 +34,9 @@ static cstlBuffer* os_path_dirname(cstlBuffer* path);
 static cstlBuffer* os_path_extname(cstlBuffer* path);
 static cstlBuffer* os_path_join(cstlBuffer* path1, cstlBuffer* path2);
 static bool os_is_sep(char ch);
+static bool os_path_is_abs(cstlBuffer* path);
+static bool os_path_is_rel(cstlBuffer* path);
+static bool os_path_is_root(cstlBuffer* path);
 
 #ifndef CSTL_OS_FUNC_ALIASES
     #define CSTL_OS_FUNC_ALIASES
@@ -89,9 +92,9 @@ static cstlBuffer* __os_dirname_basename(cstlBuffer* path, bool is_basename) {
 
         // The `/` or `\\` is not so important in getting the dirname, but it does interfere with `strchr`, so
         // we skip over it (if present)
-        if(*rev->data == *(CSTL_OS_SEP))
+        if(*rev->data == CSTL_OS_SEP_CHAR)
             rev->data++;
-        char* rev_dir = strchr(rev->data, *(CSTL_OS_SEP));
+        char* rev_dir = strchr(rev->data, CSTL_OS_SEP_CHAR);
         buff_set(result, rev_dir);
         result = buff_rev(result);
         buff_free(rev);
@@ -165,5 +168,36 @@ static bool os_is_sep(char ch) {
     return ch == '/';
 #endif // CSTL_OS_WINDOWS
 }
+
+static bool os_path_is_abs(cstlBuffer* path) {
+    bool result = false;
+    CSTL_CHECK_NOT_NULL(path, "Cannot do anything useful on a null path :(");
+#ifdef CSTL_OS_WINDOWS
+	// The 'C:\...`
+    result = path->len > 2 &&
+             char_is_alpha(path->data[0]) &&
+             (path->data[1] == ':' && path->data[2] == CSTL_OS_SEP_CHAR);
+#else
+	result = path->len > 2 &&
+			 path->data[0] == CSTL_OS_SEP_CHAR;
+#endif // CSTL_OS_WINDOWS
+	return cast(bool)result;
+}
+
+static bool os_path_is_rel(cstlBuffer* path) {
+	return cast(bool) !os_path_is_abs(path);
+}
+
+static bool os_path_is_root(cstlBuffer* path) {
+	bool result = false;
+	CSTL_CHECK_NOT_NULL(path, "Cannot do anything useful on a null path :(");
+#ifdef CSTL_OS_WINDOWS
+    result = os_path_is_abs(path) && path->len == 3;
+#else
+    result = os_path_is_abs(path) && path->len == 1;
+#endif // CSTL_OS_WINDOWS
+	return result;
+}
+
 
 #endif // CSTL_OS_H
