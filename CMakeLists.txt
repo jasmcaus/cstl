@@ -89,6 +89,7 @@ if(NOT MSVC)
     
     string(APPEND COMPILE_FLAGS " -Wall")
     string(APPEND COMPILE_FLAGS " -Wextra")
+    string(APPEND COMPILE_FLAGS " -Werror")   
     
     if(WERROR)
         check_cxx_compiler_flag("-Werror" COMPILER_SUPPORT_WERROR)

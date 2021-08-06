@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
 # CSTL's Internal Tests
-# We use the Tau, a custom unit testing framework built by Jason Dsouza <@jasmcaus>
+# We use Tau, a custom unit testing framework built by Jason Dsouza <@jasmcaus>
 
 # Tau requires at least C11/C++11
 set(CMAKE_C_EXTENSIONS OFF)
@@ -45,5 +45,6 @@ target_include_directories(
 )
 
 # The CSTL INTERFACE library
-target_link_libraries(CSTLInternalTests PRIVATE CSTL)
-target_link_libraries(CSTLInternalTests PRIVATE Tau::Tau)
+target_link_libraries(CSTLInternalTests PRIVATE 
+    CSTL Tau
+)
