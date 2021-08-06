@@ -85,11 +85,6 @@ def run():
         s = s.replace('#ifdef CSTL_IMPL', '')
         s = s.replace('\n#endif // CSTL_IMPL', '')
         s = s.replace('#endif // CSTL_IMPL', '')
-        if file.endswith('misc.h'):
-            s = s.replace('cast', 'CSTL_CAST')
-            s = s.replace('ptrCSTL_CAST', 'CSTL_PTRCAST')
-            s = s.replace('static_CSTL_CAST', 'static_cast')
-            s = s.replace('reinterpret_CSTL_CAST', 'reinterpret_cast')
 
         with open(destination, 'w') as f:
             f.write(s)
