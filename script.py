@@ -81,10 +81,10 @@ def run():
 
         s = s.replace('\n#ifndef ADORAD', '')
         s = s.replace('#endif // ADORAD', '')
-	s = s.replace('\n#ifdef CSTL_IMPL', '')
-	s = s.replace('#ifdef CSTL_IMPL', '')
-	s = s.replace('\n#endif // CSTL_IMPL', '')
-	s = s.replace('#endif // CSTL_IMPL', '')
+        s = s.replace('\n#ifdef CSTL_IMPL', '')
+        s = s.replace('#ifdef CSTL_IMPL', '')
+        s = s.replace('\n#endif // CSTL_IMPL', '')
+        s = s.replace('#endif // CSTL_IMPL', '')
         if file.endswith('misc.h'):
             s = s.replace('cast', 'CSTL_CAST')
             s = s.replace('ptrCSTL_CAST', 'CSTL_PTRCAST')
