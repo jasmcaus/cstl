@@ -589,5 +589,9 @@ static inline char* utf8_encode(Rune value) {
 }
 
 #include <cstl/utf8_data.h>
+// Include this file _only_ when CSTL has the capability of being built separately as a static/shared library
+// with CMake. All sorts of error messages pop up (``warning: excess elements in scalar initializer``). 
+// These error messages disappear when this file is included in its own .c[pp] file.
+// #include <cstl/utf8_properties.h>
 
 #endif // CSTL_UTF8_H
