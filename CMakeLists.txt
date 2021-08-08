@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
 set(CSTL_VERSION 1.0.0)
 
-project(CSTL 
-        VERSION ${CSTL_VERSION}
-        DESCRIPTION "CSTL: The C/C++ Unofficial Standard Library"
-        LANGUAGES C CXX
+project(
+    CSTL 
+    VERSION ${CSTL_VERSION}
+    DESCRIPTION "CSTL: The C/C++ Unofficial Standard Library"
+    LANGUAGES C CXX
 )
 
 # CMake's FATAL_ERROR is ignored on CMake versions >2.6 
@@ -163,7 +164,7 @@ set(CSTL_HEADERS_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/CSTL)
 
 # ------ Main Build ------
 #
-# Main Build File for the main Adorad Library
+# Main Build File for the main CSTL Library
 # 
 # Note that this library must have _minimal_ dependencies 
 # _DO NOT_ add `main.c` here (we're building a library, remember?)
@@ -193,9 +194,9 @@ add_library(
 add_library(CSTL::CSTL ALIAS CSTL)
 
 if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
-    target_compile_features(CSTL INTERFACE c_range_for)
+    target_compile_features(CSTL STATIC c_range_for)
 else()
-    target_compile_features(CSTL INTERFACE c_std_11)
+    target_compile_features(CSTL STATIC c_std_11)
 endif()
 
 set_target_properties(CSTL PROPERTIES VERSION ${CSTL_VERSION})

@@ -20,7 +20,7 @@ BUILD_DIR = build
 # GENERATOR = "MinGW Makefiles"
 
 cmake:
-	cmake -S $(SOURCE_DIR) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DCSTL_BUILDINTERNALTESTS=On
+	cmake -S $(SOURCE_DIR) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DCSTL_BUILDTESTS=On
 	cmake --build $(BUILD_DIR) --config Debug
 	echo ------------------ Running Target ------------------
 	cd build/bin/ ; ./CSTLInternalTests

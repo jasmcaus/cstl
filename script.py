@@ -53,7 +53,7 @@ def run():
     for file in os.listdir(SOURCE):
         path = os.path.join(SOURCE, file)
 
-        if path.endswith('cmake_macros.h'):
+        if path.endswith(('cmake_macros.h', 'CMakeLists.txt')):
             continue
 
         if not path.endswith('adcore.h'):

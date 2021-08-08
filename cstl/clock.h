@@ -16,17 +16,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #include <time.h>
 
-static double now();
-static double duration(clock_t start, clock_t end);
-
-// Returns the current time (in clock_t)
-static double now() {
-    return clock();
-}
-
-// Get duration between `start` and `end` in seconds.
-static double duration(clock_t start, clock_t end) {
-    return (double)(end - start)/CLOCKS_PER_SEC;
-}
+double now();
+double duration(clock_t start, clock_t end);
 
 #endif // CSTL_CLOCK_H
