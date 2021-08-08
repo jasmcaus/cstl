@@ -39,14 +39,12 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(IS_MAIN_PROJECT ON)
 endif()
 
-
 if (POLICY CMP0077)
     # Allow CMake 3.13+ to override options when using FetchContent/add_subdirectory.
     cmake_policy(SET CMP0077 NEW)
 endif()
 
-
-option(CSTL_BUILDINTERNALTESTS "Build unit tests." ${IS_MAIN_PROJECT})
+option(CSTL_BUILDTESTS "Build unit tests." ${IS_MAIN_PROJECT})
 option(CSTL_HIDE_INTERNAL_SYMBOLS "Hide internal symbols" ON)
 
 if (CSTL_HIDE_INTERNAL_SYMBOLS)
@@ -150,23 +148,31 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY   ${CSTL_LIB_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY   ${CSTL_LIB_DIR})
 
 set(CSTL_TARGET_NAME           ${PROJECT_NAME}Targets)
-set(CSTL_TARGETS_CMAKE         ${CMAKE_CURRENT_BINARY_DIR}/${CSTL_TARGET_NAME}.cmake)
-
+# set(CSTL_TARGETS_CMAKE         ${CMAKE_CURRENT_BINARY_DIR}/${CSTL_TARGET_NAME}.cmake)
 set(CSTL_HEADERS_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/CSTL)
 
 # CMake Configurations (from the ``cmake`` folder)
-set(CSTL_CMAKE_CONFIGVERSION_IN      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ConfigVersion.cmake.in)
-set(CSTL_CMAKE_CONFIGVERSION         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake)
-set(CSTL_CMAKE_CONFIG_IN             ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in)
-set(CSTL_CMAKE_CONFIG                ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake)
-set(CSTL_CMAKE_CONFIGS_INSTALL_DIR   "lib/cmake/${PROJECT_NAME}" CACHE INTERNAL "")
-set(CSTL_CMAKE_PKGCONFIG_IN          ${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkg-config.pc.in)
-set(CSTL_CMAKE_PKGCONFIG             ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-Pkg-Config.pc)
+# set(CSTL_CMAKE_CONFIGVERSION_IN      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ConfigVersion.cmake.in)
+# set(CSTL_CMAKE_CONFIGVERSION         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake)
+# set(CSTL_CMAKE_CONFIG_IN             ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in)
+# set(CSTL_CMAKE_CONFIG                ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake)
+# set(CSTL_CMAKE_CONFIGS_INSTALL_DIR   "lib/cmake/${PROJECT_NAME}" CACHE INTERNAL "")
+# set(CSTL_CMAKE_PKGCONFIG_IN          ${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkg-config.pc.in)
+# set(CSTL_CMAKE_PKGCONFIG             ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-Pkg-Config.pc)
 
 
 # ------ Main Build ------
-# Main Build File for the main CSTL Library
+#
+# Main Build File for the main Adorad Library
+# 
 # Note that this library must have _minimal_ dependencies 
+# _DO NOT_ add `main.c` here (we're building a library, remember?)
+file(GLOB LIBCSTL_SOURCES
+    cstl/*.c
+)
+file(GLOB_RECURSE CSTL_HEADERS 
+    cstl/*.h
+)
 
 # Where CSTL's .h files can be found.
 set(
@@ -174,11 +180,15 @@ set(
     "${CSTL_ROOT_DIR}/cstl"
     "${CSTL_ROOT_DIR}"
 )
-include_directories(${CSTL_BUILD_INCLUDE_DIRS})
+# include_directories(${CSTL_BUILD_INCLUDE_DIRS})
 
 # Create the CSTL Interface Library
 # Interfaces are best for header-only libraries
-add_library(CSTL INTERFACE)
+add_library(
+    CSTL STATIC
+    ${LIBCSTL_SOURCES}
+    ${CSTL_HEADERS}
+)
 # Add an alias so that CSTL can be used with add_subdirectory
 add_library(CSTL::CSTL ALIAS CSTL)
 
@@ -191,75 +201,78 @@ endif()
 set_target_properties(CSTL PROPERTIES VERSION ${CSTL_VERSION})
 
 target_include_directories(
-    CSTL 
-    INTERFACE 
+    CSTL PUBLIC 
     # If CSTL is used directly by another cmake target (such as when building tests or when it is included 
     # as a sub-directory)
     # $<BUILD_INTERFACE:"${CSTL_HEADERS_INCLUDE_DIR}">
     "$<BUILD_INTERFACE:${CSTL_BUILD_INCLUDE_DIRS}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>"
+    "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>"
+    # This is here out of convenience. You might break a test or two if this is removed.
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>"
     # The path if CSTL is installed
     # $<INSTALL_INTERFACE:"include">
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}}>"
+    "$<INSTALL_INTERFACE:include"
 )
 
 
 # ------ Installations ------
 # Only perform the installation if CSTL is built as the main project (i.e not included as an external project, 
 # or a subdirectory) or destinations might break.
-if(IS_MAIN_PROJECT)
-    ## Installation header files, generate and install cmake config files for find_package()
-    include(CMakePackageConfigHelpers)
+# if(IS_MAIN_PROJECT)
+#     ## Installation header files, generate and install cmake config files for find_package()
+#     include(CMakePackageConfigHelpers)
 
-    # We write a custom package version config file instead of `write_basic_package_version_file` to ensure that it's 
-    # architecture-independent
+#     # We write a custom package version config file instead of `write_basic_package_version_file` to ensure that it's 
+#     # architecture-independent
 
-    # ConfigVersion.cmake.in --> CSTLConfigVersion.cmake
-    configure_file(
-        ${CSTL_CMAKE_CONFIGVERSION_IN}
-        ${CSTL_CMAKE_CONFIGVERSION}
-        @ONLY
-    )
-    # config.cmake.in --> CSTLConfig.cmake
-    configure_file(
-        ${CSTL_CMAKE_CONFIG_IN}
-        ${CSTL_CMAKE_CONFIG}
-        @ONLY
-    )
-    # Install a pkg-config file, so other tools can find this.
-    configure_file(
-        ${CSTL_CMAKE_PKGCONFIG_IN}
-        ${CSTL_CMAKE_PKGCONFIG}
-    )
-    # Install the pkg-config file to lib/pkgconfig
-    install(
-        FILES ${CSTL_CMAKE_PKGCONFIG}
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
-    )
+#     # ConfigVersion.cmake.in --> CSTLConfigVersion.cmake
+#     configure_file(
+#         ${CSTL_CMAKE_CONFIGVERSION_IN}
+#         ${CSTL_CMAKE_CONFIGVERSION}
+#         @ONLY
+#     )
+#     # config.cmake.in --> CSTLConfig.cmake
+#     configure_file(
+#         ${CSTL_CMAKE_CONFIG_IN}
+#         ${CSTL_CMAKE_CONFIG}
+#         @ONLY
+#     )
+#     # Install a pkg-config file, so other tools can find this.
+#     configure_file(
+#         ${CSTL_CMAKE_PKGCONFIG_IN}
+#         ${CSTL_CMAKE_PKGCONFIG}
+#     )
+#     # Install the pkg-config file to lib/pkgconfig
+#     install(
+#         FILES ${CSTL_CMAKE_PKGCONFIG}
+#         DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+#     )
 
-    # Move CSTLConfig.cmake and CSTLConfigVersion.cmake  ---> lib/cmake/CSTL/...
-    install(
-        FILES "${CMAKE_CURRENT_BINARY_DIR}/CSTLConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}/CSTLConfigVersion.cmake" 
-        DESTINATION "lib/cmake/CSTL"
-    )
+#     # Move CSTLConfig.cmake and CSTLConfigVersion.cmake  ---> lib/cmake/CSTL/...
+#     install(
+#         FILES "${CMAKE_CURRENT_BINARY_DIR}/CSTLConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}/CSTLConfigVersion.cmake" 
+#         DESTINATION "lib/cmake/CSTL"
+#     )
 
-    # ./include --> include
-    install(
-        DIRECTORY ${CSTL_HEADERS_INCLUDE_DIR}
-        DESTINATION CSTL
-    )
+#     # ./include --> include
+#     install(
+#         DIRECTORY ${CSTL_HEADERS_INCLUDE_DIR}
+#         DESTINATION CSTL
+#     )
 
 
-    # Export CSTLTargets from CSTLTargets.cmake
-    export(
-        TARGETS CSTL
-        FILE ${CSTL_TARGETS_CMAKE}
-    )
+#     # Export CSTLTargets from CSTLTargets.cmake
+#     export(
+#         TARGETS CSTL
+#         FILE ${CSTL_TARGETS_CMAKE}
+#     )
 
-    install(
-        EXPORT ${CSTL_TARGET_NAME}
-        DESTINATION lib/cmake/CSTL
-    )
-endif() # IS_MAIN_PROJECT
+#     install(
+#         EXPORT ${CSTL_TARGET_NAME}
+#         DESTINATION lib/cmake/CSTL
+#     )
+# endif() # IS_MAIN_PROJECT
 
 # install(
 #     TARGETS CSTL
@@ -268,7 +281,8 @@ endif() # IS_MAIN_PROJECT
 # )
 install(
     TARGETS CSTL
-    EXPORT ${CSTL_TARGET_NAME}
+    # Uncomment the following only if actual CMake targets (like packaging info etc) are being built
+    # EXPORT ${CSTL_TARGET_NAME}
     ARCHIVE DESTINATION "lib"
     LIBRARY DESTINATION "lib"
     RUNTIME DESTINATION "bin"
@@ -287,6 +301,6 @@ install(
 
 # If at least one test option is ON, we need to enter the `test` directory
 # The relevant options will be parsed and the appropriate tests will be called
-if(CSTL_BUILDINTERNALTESTS)
-    add_subdirectory(test)
-endif()
+# if(CSTL_BUILDTESTS)
+#     add_subdirectory(test)
+# endif()
