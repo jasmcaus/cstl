@@ -22,13 +22,12 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #include <cstl/misc.h>
 #include <cstl/headers.h>
 
-
-// ========================= Debug + Asserts =========================
-// This macro is only for simple assertion checks (that don't require a message to STDOUT).
-// Note that this is not recommended. Use CHECK instead
-// If a condition fails, this raises a compilation error (negative index) --> 0*2 == 0 + (-1) == -1!
-#define CSTL_DEBUG_CHECK1(cond, line)      typedef char static_assertion_at_line_##line[(!!(cond))*2-1]
-#define CSTL_DEBUG_CHECK(cond)             CSTL_DEBUG_CHECK1(cond, __LINE__)
+// Enable the use of the non-standard keyword __attribute__ to silence warnings under some compilers
+#if defined(__GNUC__) || defined(CSTL_COMPILER_CLANG)
+    #define CSTL_ATTRIBUTE_(attr)    __attribute__((attr))
+#else
+    #define CSTL_ATTRIBUTE_(attr)
+#endif // __GNUC__
 
 #if defined(__cplusplus)
     #include <exception>
@@ -39,13 +38,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #else
     #define CSTL_ABORT()     exit(1)
 #endif //__cplusplus
-
-// Enable the use of the non-standard keyword __attribute__ to silence warnings under some compilers
-#if defined(__GNUC__) || defined(CSTL_COMPILER_CLANG)
-    #define CSTL_ATTRIBUTE_(attr)    __attribute__((attr))
-#else
-    #define CSTL_ATTRIBUTE_(attr)
-#endif // __GNUC__
 
 #ifdef __cplusplus
     // On C++, default to its polymorphism capabilities
@@ -70,9 +62,9 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #define CSTL_COLOUR_CYAN      4
 #define CSTL_COLOUR_BOLD      5
 
-static inline int CSTL_ATTRIBUTE_(format (printf, 2, 3))
+static int CSTL_ATTRIBUTE_(format (printf, 2, 3))
 cstlColouredPrintf(int colour, const char* fmt, ...);
-static inline int CSTL_ATTRIBUTE_(format (printf, 2, 3))
+int CSTL_ATTRIBUTE_(format (printf, 2, 3))
 cstlColouredPrintf(int colour, const char* fmt, ...) {
     va_list args;
     char buffer[256];
@@ -129,10 +121,13 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
 #endif // CSTL_UNIX_
 }
 
+static int CSTL_char_is_digit(char c);
+static int CSTL_char_is_digit(char c) { 
+    return c >= '0' && c <= '9'; 
+}
 
-static inline int CSTL_char_is_digit(char c) { return c >= '0' && c <= '9'; }
-
-static inline int cstlShouldDecomposeMacro(char const* actual, char const* expected, int isStringCmp) {
+static int cstlShouldDecomposeMacro(char const* actual, char const* expected, int isStringCmp);
+static int cstlShouldDecomposeMacro(char const* actual, char const* expected, int isStringCmp) {
     // Signal that the macro can be further decomposed if either of the following symbols are present
     int dots = 0;
     int numActualDigits = 0;
@@ -414,6 +409,5 @@ static inline int cstlShouldDecomposeMacro(char const* actual, char const* expec
 
 #define CSTL_WARN(msg)     \
     cstlColouredPrintf(CSTL_COLOUR_WARN, "%s:%u:\nWARNING: %s\n", __FILE__, __LINE__, #msg)
-
 
 #endif // CSTL_DEBUG_H

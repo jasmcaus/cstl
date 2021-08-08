@@ -16,6 +16,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #include <cstl/types.h>
 #include <cstl/os_defs.h>
+#include <cstl/misc.h>
 
 /*
     Hashing & Checksum Functions

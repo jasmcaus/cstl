@@ -14,7 +14,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CSTL_WINDOWS_H
 #define CSTL_WINDOWS_H
 
-/*
 #include <cstl/compilers.h>
 #include <cstl/types.h>
 #include <cstl/misc.h>
@@ -478,7 +477,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT HANDLE    WINAPI GetCurrentThread(void);
 */
 
-/*
     #define PAGE_NOACCESS          0x01
     #define PAGE_READONLY          0x02
     #define PAGE_READWRITE         0x04
@@ -510,7 +508,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT void   WINAPI GetSystemInfo(SYSTEM_INFO* system_info);
 */
 
-/*
 	#ifndef VK_UNKNOWN
         #define VK_UNKNOWN 0
         #define VK_LBUTTON  0x01
@@ -744,7 +741,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT BOOL WINAPI SetEnvironmentVariableA(char const* name, char const* value);
 */
 
-/*
     #define WM_NULL                   0x0000
     #define WM_CREATE                 0x0001
     #define WM_DESTROY                0x0002
@@ -872,7 +868,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT int     WINAPI MessageBoxW(void* wnd, wchar_t const* text, wchar_t const* caption, unsigned int type);
 */
 
-/*
     #define DM_BITSPERPEL 0x00040000l
     #define DM_PELSWIDTH  0x00080000l
     #define DM_PELSHEIGHT 0x00100000l
@@ -959,7 +954,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT HANDLE  WINAPI SetClipboardData(UINT uFormat, HANDLE hMem);
 */
 
-/*
     #define PFD_TYPE_RGBA             0
     #define PFD_TYPE_COLORINDEX       1
     #define PFD_MAIN_PLANE            0
@@ -1012,7 +1006,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT DWORD    WINAPI GetWindowLongW(HWND hWnd, int nIndex);
 */
 
-/*
     #define PM_NOREMOVE 0
     #define PM_REMOVE   1
 
@@ -1022,7 +1015,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     CSTL_DLL_IMPORT LRESULT WINAPI DispatchMessageW(MSG const* lpMsg);
 */
 
-/*
 	typedef enum {
         DIB_RGB_COLORS  = 0x00,
         DIB_PAL_COLORS  = 0x01,
@@ -1045,7 +1037,5 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
     #define BLACKNESS   (u32)0x00000042
     #define WHITENESS   (u32)0x00FF0062
 #endif // CSTL_COMPILER_MSVC
-
-*/
 
 #endif // CSTL_WINDOWS_H

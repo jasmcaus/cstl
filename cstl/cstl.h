@@ -71,7 +71,7 @@ CREDITS
 #endif // CSTL_INCLUDE_HASH_H
 
 #ifdef CSTL_INCLUDE_WINDOWS_H
-    #include <cstl/windows.h>
+    // #include <cstl/windows.h>
 #endif // CSTL_INCLUDE_WINDOWS_H
 
 #endif // CSTL_CORE_CSTL_H
