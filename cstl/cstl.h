@@ -31,7 +31,7 @@ WARNING
 	- This library is **slightly** experimental and features may not work as expected.
 	- This also means that many functions are not documented.
 CREDITS
-	Written Jason Dsouza
+	Written by Jason Dsouza <@jasmcaus>
 */
 
 /*
@@ -63,6 +63,7 @@ CREDITS
 #include <cstl/os.h>
 #include <cstl/buffer.h>
 #include <cstl/char.h>
+#include <cstl/utf8.h>
 #include <cstl/vector.h>
 
 #ifdef CSTL_INCLUDE_HASH_H
