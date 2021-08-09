@@ -9,7 +9,7 @@ import os
 """
 
 SOURCE = r'/home/jas/Documents/dev/adorad/adorad/core'
-HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
+HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'coreten')
 
 ADORAD_COPYRIGHT = \
 """
@@ -25,7 +25,7 @@ CSTL_COPYRIGHT = \
 """
   ______ ____ ________ _
  / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The neatest rewrite of the C/C++ Standard Library
+| |    | (_     | |   | |      CSTL - The Coreten Standard Library
 | |    \___ \   | |   | |      Languages: C, C++ and Assembly
 | |___ ____) |  | |   | |____  https://github.com/jasmcaus/cstl
  \_____\_____/  |_|   \______| 
@@ -33,9 +33,9 @@ CSTL_COPYRIGHT = \
 
 A = """\
 
-#ifndef CSTL_USING_CUSTOM_GENERATED_MACROS
+#ifndef CORETEN_USING_CUSTOM_GENERATED_MACROS
     #include <adorad/core/cmake_macros.h>
-#endif // CSTL_USING_CUSTOM_GENERATED_MACROS
+#endif // CORETEN_USING_CUSTOM_GENERATED_MACROS
 """
 
 B = """\
@@ -59,7 +59,7 @@ def run():
         if not path.endswith('adcore.h'):
             destination = os.path.join(HERE, file)
         else:
-            destination = os.path.join(HERE, 'cstl.h')
+            destination = os.path.join(HERE, 'coreten.h')
 
         # Copy contents
         shutil.copy(path, destination)
@@ -74,17 +74,17 @@ def run():
         s = s.replace('typedef cstlVector Vec;', '')
         s = s.replace('#ifndef _ADORAD_', '')
         s = s.replace('#endif // _ADORAD_', '')
-        s = s.replace('#include <adorad/core/', '#include <cstl/')
-        s = s.replace("ADORAD", "CSTL")
+        s = s.replace('#include <adorad/core/', '#include <coreten/')
+        s = s.replace("ADORAD", "CORETEN")
         s = s.replace(ADORAD_COPYRIGHT, CSTL_COPYRIGHT)
-        s = s.replace("namespace Adorad", "namespace cstl")
+        s = s.replace("namespace adorad", "namespace coreten")
 
         s = s.replace('\n#ifndef ADORAD', '')
         s = s.replace('#endif // ADORAD', '')
-        s = s.replace('\n#ifdef CSTL_IMPL', '')
-        s = s.replace('#ifdef CSTL_IMPL', '')
-        s = s.replace('\n#endif // CSTL_IMPL', '')
-        s = s.replace('#endif // CSTL_IMPL', '')
+        s = s.replace('\n#ifdef CORETEN_IMPL', '')
+        s = s.replace('#ifdef CORETEN_IMPL', '')
+        s = s.replace('\n#endif // CORETEN_IMPL', '')
+        s = s.replace('#endif // CORETEN_IMPL', '')
 
         with open(destination, 'w') as f:
             f.write(s)

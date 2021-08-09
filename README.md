@@ -1,13 +1,13 @@
 # CSTL
-The neatest rewrite of the C/C++ Standard Library 
+The Coreten Standard Library, a neat and mini Standard Library for C.
 
 Please note that most features in this project are **highly** experimental and *might* break pieces of your code. 
 Nevertheless, it is an interesting project as it exposes the inner layers of what's always regarded as a 'black box'. 
 
 ## Usage 
-Include `cstl`. That's all!
+Include `coreten`. That's all!
 ```c
-#include <cstl/cstl.h>
+#include <coreten/coreten.h>
 ```
 
 ## Contributing
