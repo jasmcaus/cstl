@@ -16,6 +16,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #include <coreten/types.h>
 #include <coreten/debug.h>
+#include <coreten/headers.h>
 
 typedef struct File {
     char* full_path;

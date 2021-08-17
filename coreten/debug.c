@@ -25,7 +25,7 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
     va_end(args);
     buffer[sizeof(buffer)-1] = '\0';
 
-#ifdef CORETEN_OS_UNIX
+#if defined(CORETEN_OS_UNIX)
     {
         const char* str;
         switch(colour) {
@@ -34,7 +34,7 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
             case CORETEN_COLOUR_WARN:     str = "\033[1;33m"; break;
             case CORETEN_COLOUR_CYAN:     str = "\033[1;36m"; break;
             case CORETEN_COLOUR_BOLD:     str = "\033[1m"; break;
-            default:                   str = "\033[0m"; break;
+            default:                      str = "\033[0m"; break;
         }
         printf("%s", str);
         n = printf("%s", buffer);
@@ -56,8 +56,8 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
             case CORETEN_COLOUR_CYAN:       attr = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY; break;
             case CORETEN_COLOUR_WARN:       attr = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY; break;
             case CORETEN_COLOUR_BOLD:       attr = FOREGROUND_BLUE | FOREGROUND_GREEN |FOREGROUND_RED | 
-                                         FOREGROUND_INTENSITY; break;
-            default:                     attr = 0; break;
+                                                   FOREGROUND_INTENSITY; break;
+            default:                        attr = 0; break;
         }
         if(attr != 0)
             SetConsoleTextAttribute(h, attr);
@@ -74,7 +74,6 @@ cstlColouredPrintf(int colour, const char* fmt, ...) {
 void coreten_panic(PanicLevel pl, const char* format, ...) {
     va_list args;
     char buffer[256];
-    int n;
 
     va_start(args, format);
     vsnprintf(buffer, sizeof(buffer), format, args);

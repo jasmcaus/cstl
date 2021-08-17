@@ -16,7 +16,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #include <coreten/os.h>
 #include <coreten/debug.h>
 
-static cstlBuffer* os_get_cwd() {
+cstlBuffer* os_get_cwd() {
 #if defined(CORETEN_OS_WINDOWS)
     // This (or its equivalent) is not defined in any include in Windows as far as I've come across
     #define PATH_MAX 4096
@@ -35,7 +35,7 @@ static cstlBuffer* os_get_cwd() {
     n = pathconf(".", _PC_PATH_MAX);
     CORETEN_ENFORCE(n != -1);
     buf = cast(char*)calloc(n, sizeof(*buf));
-    ENFORCE_NNULL(buf, "calloc failed. Out of memory");
+    CORETEN_ENFORCE_NN(buf, "calloc failed. Out of memory");
     char* result = getcwd(buf, n);
     if(!result) {
         fprintf(stderr, "Unable to `os_get_cwd()`. 'getcwd()' failed");
@@ -49,7 +49,7 @@ static cstlBuffer* os_get_cwd() {
 #endif // CORETEN_OS_WINDOWS
 }
 
-static cstlBuffer* __os_dirname_basename(cstlBuffer* path, bool is_basename) {
+cstlBuffer* __os_dirname_basename(cstlBuffer* path, bool is_basename) {
     UInt64 length = path->len;
     if(!length)
         return path;
@@ -96,15 +96,15 @@ static cstlBuffer* __os_dirname_basename(cstlBuffer* path, bool is_basename) {
     return result;
 }
 
-static cstlBuffer* os_path_dirname(cstlBuffer* path) {
+cstlBuffer* os_path_dirname(cstlBuffer* path) {
     return __os_dirname_basename(path, false);
 }
 
-static cstlBuffer* os_path_basename(cstlBuffer* path) {
+cstlBuffer* os_path_basename(cstlBuffer* path) {
     return __os_dirname_basename(path, true);
 }
 
-static cstlBuffer* os_path_extname(cstlBuffer* path) {
+cstlBuffer* os_path_extname(cstlBuffer* path) {
     cstlBuffer* basename = os_path_basename(path);
     if(!strcmp(basename->data, ""))
         return basename;
@@ -119,7 +119,7 @@ static cstlBuffer* os_path_extname(cstlBuffer* path) {
     return basename;
 }
 
-static cstlBuffer* os_path_join(cstlBuffer* path1, cstlBuffer* path2) {
+cstlBuffer* os_path_join(cstlBuffer* path1, cstlBuffer* path2) {
     UInt64 length = path1->len;
     if(!length)
         return path1;
@@ -131,7 +131,7 @@ static cstlBuffer* os_path_join(cstlBuffer* path1, cstlBuffer* path2) {
     return path1;
 }
 
-static bool os_is_sep(char ch) {
+bool os_is_sep(char ch) {
 #ifdef CORETEN_OS_WINDOWS
     return ch == '\\' || ch == '/';
 #else
@@ -139,9 +139,9 @@ static bool os_is_sep(char ch) {
 #endif // CORETEN_OS_WINDOWS
 }
 
-static bool os_path_is_abs(cstlBuffer* path) {
+bool os_path_is_abs(cstlBuffer* path) {
     bool result = false;
-    ENFORCE_NNULL(path, "Cannot do anything useful on a null path :(");
+    CORETEN_ENFORCE_NN(path, "Cannot do anything useful on a null path :(");
 #ifdef CORETEN_OS_WINDOWS
 	// The 'C:\...`
     result = path->len > 2 &&
@@ -154,13 +154,13 @@ static bool os_path_is_abs(cstlBuffer* path) {
 	return cast(bool)result;
 }
 
-static bool os_path_is_rel(cstlBuffer* path) {
+bool os_path_is_rel(cstlBuffer* path) {
 	return cast(bool) !os_path_is_abs(path);
 }
 
-static bool os_path_is_root(cstlBuffer* path) {
+bool os_path_is_root(cstlBuffer* path) {
 	bool result = false;
-	ENFORCE_NNULL(path, "Cannot do anything useful on a null path :(");
+	CORETEN_ENFORCE_NN(path, "Cannot do anything useful on a null path :(");
 #ifdef CORETEN_OS_WINDOWS
     result = os_path_is_abs(path) && path->len == 3;
 #else
