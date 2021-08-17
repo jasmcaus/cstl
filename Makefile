@@ -8,6 +8,9 @@ MAKEFLAGS += --silent
 
 all:
 	python3 script.py
+	git aa
+	git c 'Update core'
+	git po dev
 .PHONY: all
 
 echo:
