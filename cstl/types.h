@@ -14,7 +14,7 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_TYPES_H
 #define CORETEN_TYPES_H
 
-#include <coreten/compilers.h>
+#include <cstl/compilers.h>
 
 // This macro is only for simple assertion checks (that don't require a message to STDOUT).
 // If a condition fails, this raises a compilation error (negative index) --> 0*2 == 0 + (-1) == -1!

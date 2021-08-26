@@ -44,10 +44,10 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
         3. https://github.com/JuliaStrings/utf8proc
 */
 
-#include <coreten/types.h>
-#include <coreten/misc.h>
-#include <coreten/math.h>
-#include <coreten/debug.h>
+#include <cstl/types.h>
+#include <cstl/misc.h>
+#include <cstl/math.h>
+#include <cstl/debug.h>
 
 #define uBuff	cstlUTF8Str
 typedef struct cstlUTF8Str {

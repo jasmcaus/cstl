@@ -14,9 +14,9 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_OS_H
 #define CORETEN_OS_H
 
-#include <coreten/buffer.h>
-#include <coreten/os_defs.h>
-#include <coreten/types.h>
+#include <cstl/buffer.h>
+#include <cstl/os_defs.h>
+#include <cstl/types.h>
 
 #if defined(CORETEN_OS_POSIX)
     #define _XOPEN_SOURCE 700

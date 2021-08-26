@@ -14,9 +14,9 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_CHAR_H
 #define CORETEN_CHAR_H
 
-#include <coreten/types.h>
-#include <coreten/math.h>
-#include <coreten/debug.h>
+#include <cstl/types.h>
+#include <cstl/math.h>
+#include <cstl/debug.h>
 
 bool char_is_upper(char c);
 bool char_is_lower(char c);

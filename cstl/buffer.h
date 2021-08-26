@@ -14,10 +14,10 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_BUFFER_H
 #define CORETEN_BUFFER_H
 
-#include <coreten/debug.h>
-#include <coreten/types.h>
-#include <coreten/char.h>
-#include <coreten/misc.h>
+#include <cstl/debug.h>
+#include <cstl/types.h>
+#include <cstl/char.h>
+#include <cstl/misc.h>
 
 /*
     A `cstlBuffer` is a Fixed-Size Buffer.

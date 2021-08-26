@@ -14,9 +14,9 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_IO_H
 #define CORETEN_IO_H
 
-#include <coreten/types.h>
-#include <coreten/debug.h>
-#include <coreten/headers.h>
+#include <cstl/types.h>
+#include <cstl/debug.h>
+#include <cstl/headers.h>
 
 typedef struct File {
     char* full_path;

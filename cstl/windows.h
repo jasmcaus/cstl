@@ -14,9 +14,9 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_WINDOWS_H
 #define CORETEN_WINDOWS_H
 
-#include <coreten/compilers.h>
-#include <coreten/types.h>
-#include <coreten/misc.h>
+#include <cstl/compilers.h>
+#include <cstl/types.h>
+#include <cstl/misc.h>
 
 // Jason's Mini <Windows.h>
 #ifdef CORETEN_COMPILER_MSVC

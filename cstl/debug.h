@@ -16,10 +16,10 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #include <stdarg.h>
 #include <stdio.h>
-#include <coreten/os_defs.h>
-#include <coreten/misc.h>
-#include <coreten/compilers.h>
-#include <coreten/utils.h>
+#include <cstl/os_defs.h>
+#include <cstl/misc.h>
+#include <cstl/compilers.h>
+#include <cstl/utils.h>
 
 // Static asserts (aka compile-time asserts)
 #ifndef __CORTEN_STATIC_ASSERT_DEFINED
