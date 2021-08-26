@@ -1,10 +1,10 @@
 /*
-  ______ ____ ________ _
- / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The Coreten Standard Library
-| |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/cstl
- \_____\_____/  |_|   \______| 
+          _____   ____  _____            _____
+    /\   |  __ \ / __ \|  __ \     /\   |  __ \
+   /  \  | |  | | |  | | |__) |   /  \  | |  | | Adorad - The Fast, Expressive & Elegant Programming Language
+  / /\ \ | |  | | |  | |  _  /   / /\ \ | |  | | Languages: C, C++, and Assembly
+ / ____ \| |__| | |__| | | \ \  / ____ \| |__| | https://github.com/adorad/adorad/
+/_/    \_\_____/ \____/|_|  \_\/_/    \_\_____/
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
@@ -12,7 +12,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 */
 
 #include <coreten/char.h>
-
 
 bool char_is_upper(char c) { 
     return c >= 'A' && c <= 'Z'; 
@@ -46,7 +45,6 @@ Int32 digit_to_int(char c) {
     return char_is_digit(c) ? c - '0' : c - 'W'; 
 }
 
-
 bool char_is_hex_digit(char c) {
     return char_is_digit(c)                   ||
            CORETEN_IS_BETWEEN(c, 'a', 'f') ||
@@ -72,7 +70,7 @@ char char_to_upper(char c) {
 }
 
 bool char_is_whitespace(char c) {
-    if(c == ' '  || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v')
+    if(c == ' '  || c == '\n' || c == '\t' || c == '\r' || c == '\f' || c == '\v')
         return true; 
     return false;
 }

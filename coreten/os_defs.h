@@ -1,10 +1,10 @@
 /*
-  ______ ____ ________ _
- / ____/ ____|__   __/| |
-| |    | (_     | |   | |      CSTL - The Coreten Standard Library
-| |    \___ \   | |   | |      Languages: C, C++ and Assembly
-| |___ ____) |  | |   | |____  https://github.com/jasmcaus/cstl
- \_____\_____/  |_|   \______| 
+          _____   ____  _____            _____
+    /\   |  __ \ / __ \|  __ \     /\   |  ___\
+   /  \  | |  | | |  | | |__) |   /  \  | |  | | Adorad - The Fast, Expressive & Elegant Programming Language
+  / /\ \ | |  | | |  | |  _  /   / /\ \ | |  | | Languages: C, C++, and Assembly
+ / ____ \| |__| | |__| | | \ \  / ____ \| |__| | https://github.com/adorad/adorad/
+/_/    \_\_____/ \____/|_|  \_\/_/    \_\_____/
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
