@@ -65,6 +65,7 @@ CREDITS
 #include <coreten/char.h>
 #include <coreten/utf8.h>
 #include <coreten/vector.h>
+#include <coreten/warnings.h>
 
 #ifdef CORETEN_INCLUDE_HASH_H
     #include <coreten/hash.h>
