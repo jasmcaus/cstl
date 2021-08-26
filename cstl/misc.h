@@ -133,23 +133,77 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 // Get the type of `val`
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-    #define CORETEN_TYPEOF(val)                                    \
+    #define CORETEN_TYPEOF(val)                                 \
         printf("%s\n",                                          \
             _Generic((val),                                     \
-                    signed char : "signed char",                \
-                    unsigned char : "unsigned char",            \
-                    signed short : "signed short",              \
-                    unsigned short : "unsigned short",          \
-                    signed int : "signed int",                  \
-                    unsigned int : "unsigned int",              \
-                    signed long long : "signed long long",      \
-                    unsigned long long : "unsigned long long",  \
-                    float : "float",                            \
-                    double : "double",                          \
-                    default: "unknown type"                     \
+                    Int8 : "Int8",                              \
+                    Int16 : "Int16",                            \
+                    Int32 : "Int32",                            \
+                    Int64 : "Int64",                            \
+                    UInt8 : "UInt8",                            \
+                    UInt16 : "UInt16",                          \
+                    UInt32 : "UInt32",                          \
+                    UInt64 : "UInt64",                          \
+                    Float32 : "Float32",                        \
+                    Float64 : "Float64",                        \
+                    default: "<unknown type>"                   \
                 ))
 #else
-    #define CORETEN_TYPEOF(val)
+    #define CORETEN_TYPEOF(val) printf("[PANIC] CORETEN_TYPEOF not supported by your compiler.\n")
 #endif 
+
+#ifdef _WIN32
+    #define __func__        __FUNCTION__
+#endif
+
+#ifndef __cplusplus
+    #define abort()     exit(1)
+#else
+    #include <exception>
+    #define abort()     std::abort()
+#endif // __cplusplus
+
+// Make __attribute__ annotations (e.g. for checking printf-like functions a no-op for MSVC
+// That way, the known semantics of __attribute__(...) remains clear and no wrapper needs to be used.
+#if defined(CORETEN_COMPILER_MSVC)
+    #define __attribute__(X)
+    #define __zu               "%Iu"
+    #define strdup              _strdup
+#endif // CORETEN_COMPILER_MSVC
+
+// Enable the use of the non-standard keyword __attribute__ to silence warnings under some compilers
+#if defined(__GNUC__) || defined(CORETEN_COMPILER_CLANG)
+    #define CORETEN_ATTRIBUTE_(attr)    __attribute__((attr))
+#else
+    #define CORETEN_ATTRIBUTE_(attr)
+#endif // __GNUC__
+
+#ifdef CORETEN_COMPILER_MSVC
+    #define ATTRIBUTE_COLD        __declspec(noinline)
+    #define ATTRIBUTE_PRINTF(a,b)
+    #define ATTRIBUTE_NORETURN    __declspec(noreturn)
+    #define ATTRIBUTE_WEAK
+    #define ATTRIBUTE_UNUSED
+    #define BREAKPOINT            __debugbreak())
+#else
+    #define ATTRIBUTE_COLD        CORETEN_ATTRIBUTE_(cold)
+    #define ATTRIBUTE_PRINTF(a,b) CORETEN_ATTRIBUTE_(format(printf, a, b))
+    #define ATTRIBUTE_NORETURN    CORETEN_ATTRIBUTE_(noreturn)
+    #define ATTRIBUTE_WEAK        CORETEN_ATTRIBUTE_(weak)
+    #define ATTRIBUTE_UNUSED      CORETEN_ATTRIBUTE_(unused)
+
+    #if defined(__MINGW32__) || defined(__MINGW64__)
+        #define BREAKPOINT        __debugbreak()
+    #elif defined(__i386__) || defined(__x86_64__)
+        #define BREAKPOINT        __asm__ volatile("int $0x03");
+    #elif defined(__clang__)
+        #define BREAKPOINT        __builtin_debugtrap()
+    #elif defined(__GNUC__)
+        #define BREAKPOINT        __builtin_trap()
+    #else
+        #include <signal.h>
+        #define BREAKPOINT        raise(SIGTRAP)
+    #endif // __MINGW32__
+#endif // CORETEN_COMPILER_MSVC
 
 #endif // CORETEN_MISCELLANEOUS_H
