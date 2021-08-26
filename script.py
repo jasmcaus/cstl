@@ -9,7 +9,7 @@ import os
 """
 
 SOURCE = r'/home/jas/Documents/dev/adorad/adorad/core'
-HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'coreten')
+HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cstl')
 
 ADORAD_COPYRIGHT = \
 """
@@ -59,7 +59,7 @@ def run():
         if not path.endswith('adcore.h'):
             destination = os.path.join(HERE, file)
         else:
-            destination = os.path.join(HERE, 'coreten.h')
+            destination = os.path.join(HERE, 'cstl.h')
 
         # Copy contents
         shutil.copy(path, destination)
@@ -74,7 +74,7 @@ def run():
         s = s.replace('typedef cstlVector Vec;', '')
         s = s.replace('#ifndef _ADORAD_', '')
         s = s.replace('#endif // _ADORAD_', '')
-        s = s.replace('#include <adorad/core/', '#include <coreten/')
+        s = s.replace('#include <adorad/core/', '#include <cstl/')
         s = s.replace("ADORAD", "CORETEN")
         s = s.replace(ADORAD_COPYRIGHT, CSTL_COPYRIGHT)
         s = s.replace("namespace adorad", "namespace coreten")
