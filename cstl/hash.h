@@ -14,10 +14,6 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_HASH_H
 #define CORETEN_HASH_H
 
-#include <cstl/types.h>
-#include <cstl/os_defs.h>
-#include <cstl/misc.h>
-
 /*
     Hashing & Checksum Functions
 */
