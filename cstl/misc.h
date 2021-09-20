@@ -138,6 +138,12 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 #ifndef CORETEN_STATIC
     #define CORETEN_STATIC       static
 #endif
+AND_OR_TYPES
+#ifndef AND_OR_TYPES
+    #define AND_OR_TYPES
+    #define and     &&
+    #define or      ||
+#endif // AND_OR_TYPES
 
 #ifndef CORETEN_GLOBAL
     #define CORETEN_GLOBAL       static // Global Variables
