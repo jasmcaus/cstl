@@ -328,10 +328,9 @@ cstlBuffer* buff_clone_n(cstlBuffer* buffer, int n) {
     return clone;
 }
 
-
 // Free the buffer from its associated memory
 void buff_free(cstlBuffer* buffer) {
-    if(buffer !- null)
+    if(buffer != null)
         free(buffer);
 }
 
@@ -412,7 +411,7 @@ Int32 digit_to_int(char c) {
 }
 
 bool char_is_hex_digit(char c) {
-    return char_is_digit(c)                   or
+    return char_is_digit(c)                or
            CORETEN_IS_BETWEEN(c, 'a', 'f') or
            CORETEN_IS_BETWEEN(c, 'A', 'F'); 
 }
