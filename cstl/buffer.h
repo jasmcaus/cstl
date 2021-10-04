@@ -29,7 +29,7 @@ typedef struct cstlBuffer cstlBuffer;
 struct cstlBuffer {
     char* data;    // buffer data
     UInt64 len;    // buffer size
-    bool is_utf8;  // UTF-8 Strings
+    // bool is_utf8;  // UTF-8 Strings
 };
 
 cstlBuffer* buff_new(char* buff_data);

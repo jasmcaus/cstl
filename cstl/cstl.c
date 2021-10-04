@@ -26,7 +26,7 @@ CREDITS
 #include <cstl/adcore.h>
 
 // -------------------------------------------------------------------------
-// buffer.c
+// buffer.h
 // -------------------------------------------------------------------------
 
 // Create a new `cstlBuffer`
@@ -34,7 +34,7 @@ cstlBuffer* buff_new(char* buff_data) {
     cstlBuffer* buffer = cast(cstlBuffer*)calloc(1, sizeof(cstlBuffer));
     CORETEN_ENFORCE_NN(buffer, "Could not allocate memory. Memory full.");
 
-    buffer->is_utf8 = false;
+    // buffer->is_utf8 = false;
     buff_set(buffer, buff_data);
 
     return buffer;
@@ -79,8 +79,9 @@ bool buff_is_empty(cstlBuffer* buffer) {
 // Note: The implementation for this was taken from:
 // https://github.com/lattera/glibc/blob/master/string/strlen.c
 // All due credit for this goes to the rightful author.
-UInt32 __internal_strlength(const char* str, bool is_utf8) {
-    if(!is_utf8) {
+// UInt32 __internal_strlength(const char* str, bool is_utf8) {
+static UInt32 __internal_strlength(const char* str) {
+    // if(!is_utf8) {
         const char* char_ptr;
         const unsigned long int* longword_ptr;
         unsigned long int longword, himagic, lomagic;
@@ -144,23 +145,23 @@ UInt32 __internal_strlength(const char* str, bool is_utf8) {
                 }
             }
         }
-    } 
-    // UTF-8
-    else {
-        UInt32 count = 0;
-        for(; *str; count++) {
-            UInt8 c = *str;
-            UInt32 increment = 0;
-                 if(c < 0x80)               increment = 1;
-            else if((c & 0xe0) == 0xc0)     increment = 2;
-            else if((c & 0xf0) == 0xe0)     increment = 3;
-            else if((c & 0xf8) == 0xf0)     increment = 4;
-            else return -1;
+    // } 
+    // // UTF-8
+    // else {
+    //     UInt32 count = 0;
+    //     for(; *str; count++) {
+    //         UInt8 c = *str;
+    //         UInt32 increment = 0;
+    //              if(c < 0x80)               increment = 1;
+    //         else if((c & 0xe0) == 0xc0)     increment = 2;
+    //         else if((c & 0xf0) == 0xe0)     increment = 3;
+    //         else if((c & 0xf8) == 0xf0)     increment = 4;
+    //         else return -1;
             
-            str += increment;
-        }
-        return count;
-    }
+    //         str += increment;
+    //     }
+    //     return count;
+    // }
 }
 
 // Append `buff2` to the buffer data
@@ -201,7 +202,8 @@ void buff_set(cstlBuffer* buffer, char* new_buff) {
         len = 0;
         new_buff = "";
     } else {
-        len = (UInt64)__internal_strlength(new_buff, buffer->is_utf8);
+        // len = (UInt64)__internal_strlength(new_buff, buffer->is_utf8);
+        len = (UInt64)__internal_strlength(new_buff);
     }
 
     buffer->data = new_buff;
@@ -375,7 +377,19 @@ cstlBuffer* buff_toupper(cstlBuffer* buffer) {
 }
 
 // -------------------------------------------------------------------------
-// char.c
+// buffview.h
+// -------------------------------------------------------------------------
+// Don't declare these as pointers.
+// Let the stack manage this memory for us.
+cstlBuffView buffview_new(const char* data, UInt64 len) {
+    cstlBuffView out;
+    out.data = data;
+    out.len = len;
+    return out;
+}
+
+// -------------------------------------------------------------------------
+// char.h
 // -------------------------------------------------------------------------
 
 bool char_is_upper(char c) { 
@@ -474,7 +488,7 @@ char* char_last_occurence(char* str, char ch) {
 }
 
 // -------------------------------------------------------------------------
-// clock.c
+// clock.h
 // -------------------------------------------------------------------------
 
 // Returns the current time (in clock_t)
@@ -488,7 +502,7 @@ double duration(clock_t start, clock_t end) {
 }
 
 // -------------------------------------------------------------------------
-// debug.c
+// debug.h
 // -------------------------------------------------------------------------
 
 
@@ -565,11 +579,11 @@ void coreten_panic(PanicLevel pl, const char* format, ...) {
     }
     cstlColouredPrintf(CORETEN_COLOUR_ERROR, "%s", str);
     printf("%s\n", buffer);
-    abort();
+    choke_and_die();
 }
 
 // -------------------------------------------------------------------------
-// endian.c
+// endian.h
 // -------------------------------------------------------------------------
 
 inline UInt16 endian_swap16(UInt16 i) {
@@ -588,7 +602,7 @@ inline UInt64 endian_swap64(UInt64 i) {
 }
 
 // -------------------------------------------------------------------------
-// hash.c
+// hash.h
 // -------------------------------------------------------------------------
 
 #if defined(CORETEN_INCLUDE_HASH_H)
@@ -1319,7 +1333,7 @@ bool os_path_is_root(cstlBuffer* path) {
 }
 
 // -------------------------------------------------------------------------
-// utf8.c
+// utf8.h
 // -------------------------------------------------------------------------
 
 
@@ -1729,7 +1743,7 @@ Byte ubuff_at(cstlUTF8Str* ubuff, Int64 n) {
 
 
 // -------------------------------------------------------------------------
-// vector.c
+// vector.h
 // -------------------------------------------------------------------------
 
 // Create a new `cstlVector`

@@ -62,6 +62,7 @@ CREDITS
 #include <cstl/math.h>
 #include <cstl/os.h>
 #include <cstl/buffer.h>
+#include <cstl/buffview.h>
 #include <cstl/char.h>
 #include <cstl/utf8.h>
 #include <cstl/vector.h>
