@@ -34,7 +34,6 @@ cstlBuffer* buff_new(char* buff_data) {
     cstlBuffer* buffer = cast(cstlBuffer*)calloc(1, sizeof(cstlBuffer));
     CORETEN_ENFORCE_NN(buffer, "Could not allocate memory. Memory full.");
 
-    // buffer->is_utf8 = false;
     buff_set(buffer, buff_data);
 
     return buffer;
@@ -376,16 +375,149 @@ cstlBuffer* buff_toupper(cstlBuffer* buffer) {
     return upper;
 }
 
-// -------------------------------------------------------------------------
-// buffview.h
-// -------------------------------------------------------------------------
-// Don't declare these as pointers.
-// Let the stack manage this memory for us.
-cstlBuffView buffview_new(const char* data, UInt64 len) {
-    cstlBuffView out;
-    out.data = data;
-    out.len = len;
-    return out;
+/*
+    cstlBuffView
+*/
+// Returns a Stack object as opposed to a pointer
+cstlBuffView buffview_new(char* buff_data) {
+    cstlBuffView view;
+    buffview_set(&view, buff_data);
+
+    return view;
+}
+
+// Returns a Stack object as opposed to a pointer
+cstlBuffView buffview_new_from_len(char* buff_data, UInt64 len) {
+    cstlBuffView view;
+    view.data = buff_data;
+    view.len = len;
+    return view;
+}
+
+// Non-destructive reverse of a buffer view
+cstlBuffView buffview_rev(cstlBuffView* view) {
+    cstlBuffView rev = buffview_new(null);
+    UInt64 length = view->len;
+    if(!length)
+        return rev;
+    
+    char* temp = cast(char*)calloc(1, length + 1);
+    for(UInt64 i=0; i<length; i++)
+        *(temp + i) = *(view->data + length - i - 1);
+    
+    buffview_set(&rev, temp);
+    return rev;
+}
+
+// Assign `new_data` to the view data
+void buffview_set(cstlBuffView* view, char* new_data) {
+    CORETEN_ENFORCE_NN(view, "Expected not null");
+
+    UInt64 len;
+    if(!new_data) {
+        len = 0;
+        new_data = "";
+    } else {
+        len = cast(UInt64)__internal_strlength(new_data);
+    }
+
+    view->data = new_data;
+    view->len = len;
+}
+
+char buffview_at(cstlBuffView* view, UInt64 n) {
+    CORETEN_ENFORCE_NN(view, "Expected not null");
+    CORETEN_ENFORCE_NN(view->data, "Expected not null");
+
+    if(n >= view->len)
+        return nullchar;
+    
+    return (char)view->data[n];
+}
+
+// Returns a pointer to the beginning of the view data
+char* buffview_begin(cstlBuffView* view) {
+    CORETEN_ENFORCE_NN(view, "Expected not null");
+    CORETEN_ENFORCE_NN(view->data, "Expected not null");
+
+    return cast(char*)view->data;
+}
+
+// Returns a pointer to the end of the view data
+char* buffview_end(cstlBuffView* view) {
+    CORETEN_ENFORCE_NN(view, "Expected not null");
+    CORETEN_ENFORCE_NN(view->data, "Expected not null");
+
+    return cast(char*)(view->data + ((view->len - 1) * sizeof(char)));
+}
+
+// Compare two BuffViews (case-sensitive)
+// Returns true if `view1` is lexicographically equal to `view2`
+bool buffview_cmp(cstlBuffView* view1, cstlBuffView* view2) {
+    if(view1->len != view2->len)
+        return false;
+    
+    const unsigned char* s1 = cast(const unsigned char*) view1->data;
+    const unsigned char* s2 = cast(const unsigned char*) view2->data;
+    unsigned char ch1, ch2;
+
+    do {
+        ch1 = cast(unsigned char) *s1++;
+        ch2 = cast(unsigned char) *s2++;
+        if(ch1 == nullchar)
+            return (ch1 - ch2) == 0 ? true : false;
+    } while(ch1 == ch2);
+
+    return (ch1 - ch2) == 0 ? true : false;
+}
+
+// Compare two BuffViews (ignoring case)
+// Returns true if `view1` is lexicographically equal to `view2`
+bool buffview_cmp_nocase(cstlBuffView* view1, cstlBuffView* view2) {
+    if(view1->len != view2->len)
+        return false;
+    
+    const unsigned char* s1 = cast(const unsigned char*) view1->data;
+    const unsigned char* s2 = cast(const unsigned char*) view2->data;
+    int result;
+
+    if(s1 == s2)
+        return true;
+    
+    while((result = char_to_lower(*s1) - char_to_lower(*s2++)) == 0) {
+        if(*s1++ == nullchar)
+            break;
+    }
+    return result == 0 ? true : false;
+}
+
+// Append `view2` to the end of `view`.
+// Returns `view`
+void buffview_append(cstlBuffView* view, cstlBuffView* view2) {
+    CORETEN_ENFORCE_NN(view, "Expected not null");
+    CORETEN_ENFORCE_NN(view->data, "Expected not null");
+    CORETEN_ENFORCE_NN(view2, "Expected not null");
+    CORETEN_ENFORCE_NN(view2->data, "Expected not null");
+
+    UInt64 new_len = view->len + view2->len + 1;
+    char* newstr = cast(char*)calloc(1, new_len);
+    strcpy(newstr, view->data);
+    strcat(newstr, view2->data);
+    buffview_set(view, newstr);
+}
+
+// Append a character to the view data
+void buffview_append_char(cstlBuffView* view, char ch) {
+    CORETEN_ENFORCE_NN(view, "Expected not null");
+    CORETEN_ENFORCE_NN(view->data, "Expected not null");
+
+    UInt64 len = view->len;
+    char* newstr = cast(char*)calloc(1, len + 1);
+    strcpy(newstr, view->data);
+    newstr[len] = ch;
+    newstr[len + 1] = nullchar;
+    buffview_set(view, newstr);
+    view->len += 2;
 }
 
 // -------------------------------------------------------------------------
@@ -1021,10 +1153,11 @@ UInt64 hash_murmur64_seed(void const* data__, Ll len, UInt64 seed) {
 char* read_file(const char* fname) {
     FILE* file = fopen(fname, "rb"); 
     
-    if(file != null) {
+    if(file == null) {
         cstlColouredPrintf(CORETEN_COLOUR_ERROR, "Could not open file: <%s>\n", fname);
         cstlColouredPrintf(CORETEN_COLOUR_ERROR, "%s\n", !file_exists(fname) ?  
                             "FileNotFoundError: File does not exist." : "");
+        cstlColouredPrintf(CORETEN_COLOUR_ERROR, "Does file exist? %s\n", !file_exists(fname) ? "false" : "true");
         exit(1);
     }
 
@@ -1034,7 +1167,7 @@ char* read_file(const char* fname) {
     fseek(file, 0, SEEK_SET);
 
     char* buffer = cast(char*)malloc(sizeof(char) * (buff_length + 1) );
-    if(buffer != null) {
+    if(buffer == null) {
         fprintf(stderr, "Could not allocate memory for buffer for file at %s\n", fname);
         exit(1);
     }
@@ -1179,7 +1312,7 @@ Float32 coreten_log2(Float32 x){
 // os.h
 // -------------------------------------------------------------------------
 
-cstlBuffer* os_get_cwd() {
+cstlBuffView os_get_cwd() {
 #if defined(CORETEN_OS_WINDOWS)
     // This (or its equivalent) is not defined in any include in Windows as far as I've come across
     #define PATH_MAX 4096
@@ -1189,8 +1322,8 @@ cstlBuffer* os_get_cwd() {
         fprintf(stderr, "Unable to `os_get_cwd()`. 'getcwd()' failed");
         exit(1);
     }
-    cstlBuffer* buff = buff_new(result);
-    return buff;
+    cstlBuffView view = buffview_new(result);
+    return view;
 #elif defined(CORETEN_OS_POSIX)
     long n;
     char *buf;
@@ -1204,93 +1337,90 @@ cstlBuffer* os_get_cwd() {
         fprintf(stderr, "Unable to `os_get_cwd()`. 'getcwd()' failed");
         exit(1);
     }
-    cstlBuffer* buff = buff_new(buf);
-    return buff;
+    cstlBuffView view = buffview_new(buf);
+    return view;
 #else
     #error "No `os_get_cwd()` implementation supported for your platform."
     return null;
 #endif // CORETEN_OS_WINDOWS
 }
 
-cstlBuffer* __os_dirname_basename(cstlBuffer* path, bool is_basename) {
-    UInt64 length = path->len;
+cstlBuffView __os_dirname_basename(cstlBuffView path, bool is_basename) {
+    UInt64 length = path.len;
     if(!length)
         return path;
 
-    cstlBuffer* result = buff_new(null);
-    char* end = buff_end(path);
+    cstlBuffView result = buffview_new(null);
+    char* end = buffview_end(&path);
 
     // dirname
     if(!is_basename) {
-        cstlBuffer* rev = buff_rev(path);
+        cstlBuffView rev = buffview_rev(&path);
 
         // The `/` or `\\` is not so important in getting the dirname, but it does interfere with `strchr`, so
         // we skip over it (if present)
-        if(*rev->data == CORETEN_OS_SEP_CHAR)
-            rev->data++;
-        char* rev_dir = strchr(rev->data, CORETEN_OS_SEP_CHAR);
-        buff_set(result, rev_dir);
-        result = buff_rev(result);
-        buff_free(rev);
-    } 
+        if(*rev.data == CORETEN_OS_SEP_CHAR)
+            rev.data++;
+        char* rev_dir = strchr(rev.data, CORETEN_OS_SEP_CHAR);
+        buffview_set(&result, rev_dir);
+        result = buffview_rev(&result);
+    }
 
     // basename
     else {
         // If the last character is a `sep`, `basename` is empty
         if(os_is_sep(*end))
-            return buff_new(null);
+            return buffview_new(null);
         
         // If there is no `sep` in `path`, `path` is the basename
-        if(!(strstr(path->data, "/") or strstr(path->data, "\\")))
+        if(!(strstr(path.data, "/") or strstr(path.data, "\\")))
             return path;
         
-        cstlBuffer* rev = buff_rev(path);
+        cstlBuffView rev = buffview_rev(&path);
         for(UInt64 i = 0; i<length; i++) {
-            if(os_is_sep(*(rev->data + i))) {
-                *(rev->data + i) = nullchar;
+            if(os_is_sep(*(rev.data + i))) {
+                *(&rev.data + i) = nullchar;
                 break;
             }
         }
-        buff_set(result, rev->data);
-        result = buff_rev(result);
-        buff_free(rev);
+        buff_set(&result, rev.data);
+        result = buffview_rev(&result);
     }
     
     return result;
 }
 
-cstlBuffer* os_path_dirname(cstlBuffer* path) {
+cstlBuffView os_path_dirname(cstlBuffView path) {
     return __os_dirname_basename(path, false);
 }
 
-cstlBuffer* os_path_basename(cstlBuffer* path) {
+cstlBuffView os_path_basename(cstlBuffView path) {
     return __os_dirname_basename(path, true);
 }
 
-cstlBuffer* os_path_extname(cstlBuffer* path) {
-    cstlBuffer* basename = os_path_basename(path);
-    if(!strcmp(basename->data, ""))
+cstlBuffView os_path_extname(cstlBuffView path) {
+    cstlBuffView basename = os_path_basename(path);
+    if(!strcmp(basename.data, ""))
         return basename;
     
-    char* ext = strchr(basename->data, '.');
+    char* ext = strchr(basename.data, '.');
     if(ext != null) {
-       free(basename);
-       return buff_new(null);
+       return buffview_new(null);
     }
 
-    buff_set(basename, ext);
+    buff_set(&basename, ext);
     return basename;
 }
 
-cstlBuffer* os_path_join(cstlBuffer* path1, cstlBuffer* path2) {
-    UInt64 length = path1->len;
+cstlBuffView os_path_join(cstlBuffView path1, cstlBuffView path2) {
+    UInt64 length = path1.len;
     if(!length)
         return path1;
         
-    char* end = buff_end(path1);
+    char* end = buffview_end(&path1);
     if(!os_is_sep(*end))
-        buff_append_char(path1, CORETEN_OS_SEP_CHAR);
-    buff_append(path1, path2);
+        buffview_append_char(&path1, CORETEN_OS_SEP_CHAR);
+    buffview_append(&path1, &path2);
     return path1;
 }
 
@@ -1302,7 +1432,7 @@ bool os_is_sep(char ch) {
 #endif // CORETEN_OS_WINDOWS
 }
 
-bool os_path_is_abs(cstlBuffer* path) {
+bool os_path_is_abs(cstlBuffView* path) {
     bool result = false;
     CORETEN_ENFORCE_NN(path, "Cannot do anything useful on a null path :(");
 #ifdef CORETEN_OS_WINDOWS
@@ -1317,11 +1447,11 @@ bool os_path_is_abs(cstlBuffer* path) {
     return cast(bool)result;
 }
 
-bool os_path_is_rel(cstlBuffer* path) {
+bool os_path_is_rel(cstlBuffView* path) {
     return cast(bool) !os_path_is_abs(path);
 }
 
-bool os_path_is_root(cstlBuffer* path) {
+bool os_path_is_root(cstlBuffView* path) {
     bool result = false;
     CORETEN_ENFORCE_NN(path, "Cannot do anything useful on a null path :(");
 #ifdef CORETEN_OS_WINDOWS
@@ -1750,21 +1880,17 @@ Byte ubuff_at(cstlUTF8Str* ubuff, Int64 n) {
 // size = size of each element (in bytes)
 // capacity = number of elements
 cstlVector* _vec_new(UInt64 objsize, UInt64 capacity) {
-    if(capacity == 0)
-        capacity = VEC_INIT_ALLOC_CAP;
+    CORETEN_ENFORCE((int)capacity > 0, "Really? `capacity` can only be > 0");
     
     cstlVector* vec = cast(cstlVector*)calloc(1, sizeof(cstlVector));
     CORETEN_ENFORCE_NN(vec, "Could not allocate memory. Memory full.");
 
-    vec->internal.data = cast(void*)calloc(objsize, capacity);
-    if(vec->internal.data == null) {
-        free(vec);
-        CORETEN_ENFORCE_NN(vec->internal.data, "Could not allocate memory. Memory full.");
-    }
+    vec->core.data = cast(void*)calloc(objsize, capacity);
+    CORETEN_ENFORCE_NN(vec->core.data, "Could not allocate memory. Memory full.");
 
-    vec->internal.capacity = capacity;
-    vec->internal.size = 0;
-    vec->internal.objsize = objsize;
+    vec->core.capacity = capacity;
+    vec->core.len = 0;
+    vec->core.objsize = objsize;
 
     return vec;
 } 
@@ -1772,8 +1898,8 @@ cstlVector* _vec_new(UInt64 objsize, UInt64 capacity) {
 // Free a cstlVector from it's associated memory
 void vec_free(cstlVector* vec) {
     if(vec != null) {
-        if(vec->internal.data != null)
-            free(vec->internal.data);
+        if(vec->core.data != null)
+            free(vec->core.data);
         free(vec);
     }
 }
@@ -1781,9 +1907,9 @@ void vec_free(cstlVector* vec) {
 // Return a pointer to element `i` in `vec`
 void* vec_at(cstlVector* vec, UInt64 elem) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    if(elem > vec->internal.size)
+    if(elem > vec->core.len)
         return null;
 
     return VECTOR_AT_MACRO(vec, elem);
@@ -1792,87 +1918,87 @@ void* vec_at(cstlVector* vec, UInt64 elem) {
 // Return a pointer to first element in `vec`
 void* vec_begin(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    if(vec->internal.size == 0) 
+    if(vec->core.len == 0) 
         return null;
     
-    return vec->internal.data;
+    return vec->core.data;
 }
 
 // Return a pointer to last element in `vec`
 void* vec_end(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    if(vec->internal.data == 0)
+    if(vec->core.data == 0)
         return null;
     
-    return (void*)(cast(char*)vec->internal.data + (vec->internal.size - 1) * sizeof(cstlVector));
+    return (void*)(cast(char*)vec->core.data + (vec->core.len - 1) * sizeof(cstlVector));
 }
 
 // Is `vec` empty?
 bool vec_is_empty(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    return vec->internal.size == 0;
+    return vec->core.len == 0;
 }
 
 // Returns the size of `vec` (i.e the number of bytes)
 UInt64 vec_size(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    return vec->internal.size;
+    return vec->core.len;
 }
 
 // Returns the allocated capacity of `vec` (i.e the number of bytes)
 UInt64 vec_cap(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    return vec->internal.capacity;
+    return vec->core.capacity;
 }
 
 // Clear all contents of `vec`
 bool vec_clear(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    vec->internal.size = 0;
+    vec->core.len = 0;
     return true;
 }
 
 // Push an element into `vec` (at the end)
 bool vec_push(cstlVector* vec, const void* data) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    if(vec->internal.size + 1 > vec->internal.capacity) {
-        bool result = __vec_grow(vec, vec->internal.size + 1);
+    if(vec->core.len + 1 > vec->core.capacity) {
+        bool result = __vec_grow(vec, vec->core.len + 1);
         if(!result)
             return false;
     }
 
-    CORETEN_ENFORCE(vec->internal.objsize > 0);
+    CORETEN_ENFORCE(vec->core.objsize > 0);
 
-    if(vec->internal.data != null)
-        memcpy(VECTOR_AT_MACRO(vec, vec->internal.size), data, vec->internal.objsize);
+    if(vec->core.data != null)
+        memcpy(VECTOR_AT_MACRO(vec, vec->core.len), data, vec->core.objsize);
 
-    vec->internal.size++;
+    vec->core.len++;
     return true;
 }
 
 // Pop an element from the end of `vec`
 bool vec_pop(cstlVector* vec) {
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    if(vec->internal.size == 0) 
+    if(vec->core.len == 0) 
         return false;
     
-    vec->internal.size--;
+    vec->core.len--;
     return true;
 }
 
@@ -1883,29 +2009,29 @@ bool __vec_grow(cstlVector* vec, UInt64 capacity) {
     UInt64 newcapacity;
 
     CORETEN_ENFORCE_NN(vec, "Expected not null");
-    CORETEN_ENFORCE_NN(vec->internal.data, "Expected not null");
+    CORETEN_ENFORCE_NN(vec->core.data, "Expected not null");
 
-    if (capacity <= vec->internal.capacity)
+    if (capacity <= vec->core.capacity)
         return true;
 
-    CORETEN_ENFORCE(vec->internal.objsize > 0);
-    CORETEN_ENFORCE(capacity < cast(UInt64)-1/vec->internal.objsize);
+    CORETEN_ENFORCE(vec->core.objsize > 0);
+    CORETEN_ENFORCE(capacity < cast(UInt64)-1/vec->core.objsize);
 
     // Grow small vectors by a factor of 2, and 1.5 for larger ones
-    if (vec->internal.capacity < VEC_INIT_ALLOC_CAP / vec->internal.objsize) {
-        newcapacity = vec->internal.capacity + vec->internal.capacity + 1;
+    if (vec->core.capacity < VEC_INIT_ALLOC_CAP / vec->core.objsize) {
+        newcapacity = vec->core.capacity + vec->core.capacity + 1;
     } else {
-        newcapacity = vec->internal.capacity + vec->internal.capacity / 2 + 1;
+        newcapacity = vec->core.capacity + vec->core.capacity / 2 + 1;
     }
 
-    if (capacity > newcapacity or newcapacity >= (size_t) -1 / vec->internal.objsize)
+    if (capacity > newcapacity or newcapacity >= (size_t) -1 / vec->core.objsize)
         newcapacity = capacity;
 
-    newdata = realloc(vec->internal.data, newcapacity * vec->internal.objsize);
+    newdata = realloc(vec->core.data, newcapacity * vec->core.objsize);
     CORETEN_ENFORCE_NN(newdata, "Expected not null");
 
-    vec->internal.data = newdata;
-    vec->internal.capacity = newcapacity;
+    vec->core.data = newdata;
+    vec->core.capacity = newcapacity;
 
     return true;
 }
