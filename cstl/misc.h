@@ -8,7 +8,7 @@
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
-Copyright (c) 2021 Jason Dsouza <@jasmcaus>
+Copyright (c) 2021-22 Jason Dsouza <@jasmcaus>
 */
 
 #ifndef CORETEN_MISCELLANEOUS_H
@@ -141,8 +141,8 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #ifndef BIN_OP_TYPES
     #define BIN_OP_TYPES
-    #define and     &&
-    #define or      ||
+    // #define and     &&
+    // #define or      ||
 #endif // BIN_OP_TYPES
 
 #ifndef CORETEN_GLOBAL

@@ -8,7 +8,7 @@
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>
 SPDX-License-Identifier: MIT
-Copyright (c) 2021 Jason Dsouza <@jasmcaus>
+Copyright (c) 2021-22 Jason Dsouza <@jasmcaus>
 */
 
 #ifndef CORETEN_CLOCK_H
@@ -16,7 +16,19 @@ Copyright (c) 2021 Jason Dsouza <@jasmcaus>
 
 #include <time.h>
 
-double now();
-double duration(clock_t start, clock_t end);
+double clock_now();
+double clock_duration(clock_t start, clock_t end);
+
+    #include <cstl/misc.h>
+    
+    // Returns the current time (in clock_t)
+    double clock_now() {
+        return cast(double)clock();
+    }
+
+    // Get duration between `start` && `end` in seconds.
+    double clock_duration(clock_t start, clock_t end) {
+        return cast(double)(end - start)/CLOCKS_PER_SEC;
+    }
 
 #endif // CORETEN_CLOCK_H
