@@ -87,7 +87,7 @@ bool os_path_is_root(cstlBuffView* path);
         cstlBuffView result = buffview_new(null);
         char* end = buffview_end(&path);
 
-        // dirname
+        // Dirname
         if(!is_basename) {
             cstlBuffView rev = buffview_rev(&path);
 
@@ -100,7 +100,7 @@ bool os_path_is_root(cstlBuffView* path);
             result = buffview_rev(&result);
         }
 
-        // basename
+        // Basename
         else {
             // If the last character is a `sep`, `basename` is empty
             if(os_is_sep(*end))
@@ -138,7 +138,7 @@ bool os_path_is_root(cstlBuffView* path);
             return basename;
         
         char* ext = strchr(basename.data, '.');
-        if(ext != null) {
+        if(SOME(ext)) {
         return buffview_new(null);
         }
 

@@ -30,11 +30,11 @@ bool file_exists(const char* path);
     char* read_file(const char* fname) {
         FILE* file = fopen(fname, "rb"); 
         
-        if(file == null) {
-            cstl_colored_printf(CORETEN_COLOUR_ERROR, "Could not open file: <%s>\n", fname);
-            cstl_colored_printf(CORETEN_COLOUR_ERROR, "%s\n", !file_exists(fname) ?  
+        if(NONE(file)) {
+            cstl_colored_printf(CORETEN_COLOR_ERROR, "Could not open file: <%s>\n", fname);
+            cstl_colored_printf(CORETEN_COLOR_ERROR, "%s\n", !file_exists(fname) ?  
                                 "FileNotFoundError: File does not exist." : "");
-            cstl_colored_printf(CORETEN_COLOUR_ERROR, "Does file exist? %s\n", !file_exists(fname) ? "false" : "true");
+            cstl_colored_printf(CORETEN_COLOR_ERROR, "Does file exist? %s\n", !file_exists(fname) ? "false" : "true");
             exit(1);
         }
 
@@ -44,7 +44,7 @@ bool file_exists(const char* path);
         fseek(file, 0, SEEK_SET);
 
         char* buffer = cast(char*)malloc(sizeof(char) * (buff_length + 1) );
-        if(buffer == null) {
+        if(NONE(buffer)) {
             fprintf(stderr, "Could not allocate memory for buffer for file at %s\n", fname);
             exit(1);
         }

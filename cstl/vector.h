@@ -69,8 +69,8 @@ bool vec_pop(cstlVector* vec);
 
     // Free a cstlVector from it's associated memory
     void vec_free(cstlVector* vec) {
-        if(vec != null) {
-            if(vec->core.data != null)
+        if(SOME(vec)) {
+            if(SOME(vec->core.data))
                 free(vec->core.data);
             free(vec);
         }
@@ -155,7 +155,7 @@ bool vec_pop(cstlVector* vec);
 
         CORETEN_ENFORCE(vec->core.objsize > 0);
 
-        if(vec->core.data != null)
+        if(SOME(vec->core.data))
             memcpy(VECTOR_AT_MACRO(vec, vec->core.len), data, vec->core.objsize);
 
         vec->core.len++;
