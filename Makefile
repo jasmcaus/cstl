@@ -32,3 +32,8 @@ cmake:
 cmakeclean:
 	rm -rf build/ && mkdir build
 .PHONY: cmakeclean
+
+test:
+	gcc test.c -o test.exe -I .
+	./test.exe
+.PHONY: test 

@@ -2,6 +2,8 @@
 *.d
 .vscode/*
 build/*
+test.c
+test.h 
 
 # Compiled Object files
 *.slo
