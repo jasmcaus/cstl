@@ -1,4 +1,0 @@
-Name: ${PROJECT_NAME}
-Description: CSTL: The C/C++ Unofficial Standard Library
-Version: ${PROJECT_VERSION}
-Cflags: -I${CMAKE_INSTALL_FULL_INCLUDEDIR}
