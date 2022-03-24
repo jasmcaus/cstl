@@ -17,22 +17,6 @@ echo:
 	echo Working!
 .PHONY: echo
 
-
-SOURCE_DIR = .
-BUILD_DIR = build
-# GENERATOR = "MinGW Makefiles"
-
-cmake:
-	cmake -S $(SOURCE_DIR) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DCSTL_BUILDTESTS=On
-	cmake --build $(BUILD_DIR) --config Debug
-	echo ------------------ Running Target ------------------
-	cd build/bin/ ; ./CSTLInternalTests
-.PHONY: cmake
-
-cmakeclean:
-	rm -rf build/ && mkdir build
-.PHONY: cmakeclean
-
 test:
 	gcc test.c -o test.exe -I .
 	./test.exe
