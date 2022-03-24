@@ -25,6 +25,7 @@ typedef struct File {
 char* read_file(const char* fname);
 bool file_exists(const char* path);
 
+#ifdef CORETEN_IMPL
     #include <sys/stat.h>
 
     char* read_file(const char* fname) {
@@ -67,5 +68,6 @@ bool file_exists(const char* path);
         return false;
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_IO_H

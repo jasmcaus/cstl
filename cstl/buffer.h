@@ -71,6 +71,7 @@ bool buffview_cmp(cstlBuffView* view1, cstlBuffView* view2);
 bool buffview_cmp_nocase(cstlBuffView* view1, cstlBuffView* view2);
 
 
+#ifdef CORETEN_IMPL
     #include <string.h>
     
     // Create a new `cstlBuffer`
@@ -564,5 +565,6 @@ bool buffview_cmp_nocase(cstlBuffView* view1, cstlBuffView* view2);
         view->len += 2;
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_BUFFER_H

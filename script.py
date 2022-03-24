@@ -81,10 +81,10 @@ def run():
 
         s = s.replace('\n#ifndef ADORAD', '')
         s = s.replace('#endif // ADORAD', '')
-        s = s.replace('\n#ifdef CORETEN_IMPL', '')
-        s = s.replace('#ifdef CORETEN_IMPL', '')
-        s = s.replace('\n#endif // CORETEN_IMPL', '')
-        s = s.replace('#endif // CORETEN_IMPL', '')
+        # s = s.replace('\n#ifdef CORETEN_IMPL', '')
+        # s = s.replace('#ifdef CORETEN_IMPL', '')
+        # s = s.replace('\n#endif // CORETEN_IMPL', '')
+        # s = s.replace('#endif // CORETEN_IMPL', '')
 
         with open(destination, 'w') as f:
             f.write(s)

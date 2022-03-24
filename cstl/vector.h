@@ -46,6 +46,7 @@ bool vec_push(cstlVector* vec, const void* data);
 bool vec_pop(cstlVector* vec);
 
 
+#ifdef CORETEN_IMPL
     #include <string.h>
     
     // Create a new `cstlVector`
@@ -208,5 +209,6 @@ bool vec_pop(cstlVector* vec);
         return true;
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_VECTOR_H

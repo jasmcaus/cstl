@@ -49,6 +49,7 @@ static inline UInt16 endian_swap16(UInt16 i);
 static inline UInt32 endian_swap32(UInt32 i);
 static inline UInt64 endian_swap64(UInt64 i);
 
+#ifdef CORETEN_IMPL
     inline UInt16 endian_swap16(UInt16 i) {
         return (i >> 8) | (i << 8);
     }
@@ -64,5 +65,6 @@ static inline UInt64 endian_swap64(UInt64 i);
             ((i & 0x000000ff00000000ull) >> 8)  | ((i & 0x00000000ff000000ull) << 8);
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_ENDIAN_H_

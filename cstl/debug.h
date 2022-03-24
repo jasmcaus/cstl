@@ -155,6 +155,7 @@ void coreten_dread(DreadLevel pl, const char* format, ...);
 #define LOG(...)     \
     cstl_colored_printf(CORETEN_COLOR_WARN, "%s:%u: LOG: %s\n", __FILE__, __LINE__, __VA_ARGS__)
 
+#ifdef CORETEN_IMPL
     int CORETEN_ATTRIBUTE_(format (printf, 2, 3))
     cstl_colored_printf(CoretenColor color, const char* fmt, ...) {
         va_list args;
@@ -231,5 +232,6 @@ void coreten_dread(DreadLevel pl, const char* format, ...);
         choke_and_die();
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_DEBUG_H

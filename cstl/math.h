@@ -70,6 +70,7 @@ Float32 coreten_square(Float32 x);
 Float32 coreten_log2(Float32 x);
 
 
+#ifdef CORETEN_IMPL
     Float32 coreten_to_radians(Float32 degrees) { 
         return degrees * CORETEN_MATH_TAU / 360.0f;
     }
@@ -187,6 +188,7 @@ Float32 coreten_log2(Float32 x);
         return coreten_log(x) / CORETEN_MATH_LOG_TWO;
     }
 
+#endif // CORETEN_IMPL
 
 
 #endif // CORETEN_MATH_H

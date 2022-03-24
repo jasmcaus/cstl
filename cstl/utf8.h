@@ -186,6 +186,7 @@ typedef enum {
 } cstlUTF8Boundclass;
 
 
+#ifdef CORETEN_IMPL
     #include <string.h>
     
     /*
@@ -592,6 +593,7 @@ typedef enum {
     }
     */
    
+#endif // CORETEN_IMPL
 
 
 #endif // CORETEN_UTF8_H

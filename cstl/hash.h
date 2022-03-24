@@ -40,6 +40,7 @@ UInt64 hash_murmur64_seed(void const* data__, Ll len, UInt64 seed);
 
 
 #ifdef CORETEN_INCLUDE_HASH_H
+#ifdef CORETEN_IMPL
     UInt32 hash_adler32(void const* data, Ll len) {
         UInt32 const MOD_ALDER = 65521;
         UInt32 a = 1, b = 0;
@@ -445,6 +446,7 @@ UInt64 hash_murmur64_seed(void const* data__, Ll len, UInt64 seed);
     #endif // CORETEN_ARCH_64BIT
     }
 
+#endif // CORETEN_IMPL
 #endif // CORETEN_INCLUDE_HASH_H
 
 #endif // CORETEN_HASH_H

@@ -31,6 +31,7 @@ Int32 hexdigit_to_int(char c);
 char* char_first_occurence(char* str, char ch);
 char* char_last_occurence(char* str, char ch);
 
+#ifdef CORETEN_IMPL
     bool char_is_upper(char c) { 
         return c >= 'A' && c <= 'Z'; 
     }
@@ -126,5 +127,6 @@ char* char_last_occurence(char* str, char ch);
         return result;
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_CHAR_H

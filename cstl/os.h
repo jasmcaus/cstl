@@ -42,6 +42,7 @@ bool os_path_is_root(cstlBuffView* path);
 #endif // CORETEN_OS_FUNC_ALIASES
 
 
+#ifdef CORETEN_IMPL
     #include <string.h>
     
     cstlBuffView os_get_cwd() {
@@ -196,5 +197,6 @@ bool os_path_is_root(cstlBuffView* path);
         return result;
     }
 
+#endif // CORETEN_IMPL
 
 #endif // CORETEN_OS_H
